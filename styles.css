@@ -38,3 +38,32 @@ header{
 #TwoA, #TwoB, #TwoC, #ThreeA, #ThreeB, #ThreeC {
     border-top: 4px solid black;
 }
+
+#playerSection{
+    display: flex;
+    flex-direction: row;
+    height: 25vh;
+    width: 100%;
+}
+
+.playerOneZone, .playerTwoZone{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.playerOneZone > h3, .playerTwoZone > h3 {
+align-self: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+}
