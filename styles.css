@@ -23,11 +23,6 @@ header{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    gap: 0 0;
-    grid-template-areas: 
-    ". . ."
-    ". . ."
-    ". . ."; 
 }
 
 .boardCell{
@@ -35,41 +30,11 @@ header{
     height: 15vh;
 }
 
-#OneA {
+#OneA, #OneB, #TwoA, #TwoB, #ThreeA, #ThreeB {
     border-right: 4px solid black ;
 
 }
 
-#OneB {
-    border-right: 4px solid black ;
-
-}
-
-#TwoA {
-    border-top: 4px solid black;
-    border-right: 4px solid black ;
-}
-
-#TwoB {
-    border-top: 4px solid black;
-    border-right: 4px solid black ;
-}
-
-#TwoC {
-    border-top: 4px solid black;
-}
-
-#ThreeA {
-    border-top: 4px solid black;
-    border-right: 4px solid black ;
-
-}
-
-#ThreeB {
-    border-top: 4px solid black;
-    border-right: 4px solid black ;
-}
-
-#ThreeC {
+#TwoA, #TwoB, #TwoC, #ThreeA, #ThreeB, #ThreeC {
     border-top: 4px solid black;
 }
