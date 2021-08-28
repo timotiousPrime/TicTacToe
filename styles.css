@@ -30,12 +30,12 @@ header{
     height: 15vh;
 }
 
-#OneA, #OneB, #TwoA, #TwoB, #ThreeA, #ThreeB {
+#cell1, #cell2, #cell4, #cell5, #cell7, #cell8 {
     border-right: 4px solid black ;
 
 }
 
-#TwoA, #TwoB, #TwoC, #ThreeA, #ThreeB, #ThreeC {
+#cell4, #cell5, #cell6, #cell7, #cell8, #cell9 {
     border-top: 4px solid black;
 }
 
