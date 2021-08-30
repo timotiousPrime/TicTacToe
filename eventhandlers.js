@@ -1,3 +1,6 @@
+import { logCellPlayed } from './stateMutators.js'
+import { GAME_INIT_STATE } from './constants.js'
+
 const getClickedCell = () => {
     const gameBoard = document.getElementById('board')
     gameBoard.addEventListener('mouseover', logCell)
@@ -11,14 +14,15 @@ export function logCell (gameBoard) {
             const cellsUsed = gameBoard.cellsUsed
             const cellsAvailable = gameBoard.cellsAvailable
             const cellIndex = cellsAvailable.indexOf(cell)
+            logCellPlayed(GAME_INIT_STATE.currentPlayer, cell)
             // Checks if cell has been used and if not, adds cell to cellsUsed
             !cellsUsed.includes(cell) ? cellsUsed.push(cell) : cellsUsed
             cellsUsed.sort()
             // checks if cell is available and if it does, removes cell from cellsAvailable
             cellIndex >= 0 ? cellsAvailable.splice(cellIndex, 1) : cellsAvailable
 
-            console.log(cellsUsed)
-            console.log(cellsAvailable)
+            console.log('cellsUsed', cellsUsed)
+            console.log('cellsAvailable', cellsAvailable)
         })
     })
 }

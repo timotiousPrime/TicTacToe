@@ -9,10 +9,12 @@
 
 
 
-function UpdatePlayersTurn(){
+function UpdatePlayersTurn(state, player){
 
 }
 
-function logCellPlayed(cell){
-    
+export function logCellPlayed(player, cell){
+    console.log(player.cellsUsed)
+    console.log(cell)
+
 }
