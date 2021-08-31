@@ -1,5 +1,6 @@
 import { createPlayer } from './player.js'
 import { logCell } from './eventhandlers.js'
+import { checkForWins } from './constants.js'
 
 let PlayerJim = createPlayer('jim', null, true, null, true)
 
@@ -12,3 +13,5 @@ const gameBoard = {
 
 logCell(gameBoard)
 console.table (gameBoard)
+
+checkForWins()

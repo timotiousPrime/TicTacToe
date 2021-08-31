@@ -8,9 +8,6 @@ const GAME_MODE = {
 const GAME_INIT_STATE = {
     currentPlayer: 'player1',
     gameMode: GAME_MODE.PLAYING,
-
-
-
 }
 
 const INIT_BOARD = {
@@ -30,3 +27,18 @@ const winningCells = [
     [4,5,6],
     [7,8,9],
 ]
+
+const playerCellsPlayed = [1,2,5,9]
+
+export function checkForWins(player) {
+    winningCells.forEach( combo => {
+        let playeresWinningCells = []
+        combo.forEach( (cell) => {
+            playerCellsPlayed.includes(cell) ? playeresWinningCells.push(cell) : playeresWinningCells = []
+        })
+        console.log('PWC', playeresWinningCells)
+        console.log('combo', combo)
+
+        playeresWinningCells.length === 3 ? player.winCount = true : console.log('No Winner, no chicken dinner')
+    })
+}

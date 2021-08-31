@@ -1,7 +1,7 @@
-export function createPlayer(name, token, canPlay, cellsPlayed) {
+export function createPlayer(isHuman, token, canPlay, cellsPlayed) {
     let winCount = 0
     return {
-        name,
+        isHuman,
         token,
         canPlay,
         cellsPlayed,
