@@ -5,8 +5,8 @@ const GAME_MODE = {
     GAMETIED: 'gameTied',
 }
 
-const GAME_INIT_STATE = {
-    currentPlayer: 'player1',
+export const GAME_INIT_STATE = {
+    currentPlayer: 'PlayerOne',
     gameMode: GAME_MODE.PLAYING,
 }
 

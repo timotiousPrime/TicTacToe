@@ -1,10 +1,12 @@
 import { createPlayer } from './player.js'
 import { logCell } from './eventhandlers.js'
 import { checkForWins } from './constants.js'
+import { logCellPlayed } from './stateMutators.js'
 
-let PlayerJim = createPlayer('jim', null, true, null, true)
 
-console.log(PlayerJim)
+let PlayerOne = createPlayer('jim', null, true, null, true)
+
+console.log(PlayerOne)
 
 const gameBoard = {
     cellsUsed: [],
