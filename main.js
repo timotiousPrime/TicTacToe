@@ -1,4 +1,6 @@
 import { board } from "./gameBoard.js"
+import { getCellClicked } from "./eventhandlers.js"
+
 
 const player = (isHuman, token) => {
     let totalWins = 0
@@ -23,3 +25,4 @@ const player = (isHuman, token) => {
 //     ]
 
 // })()
+getCellClicked()
