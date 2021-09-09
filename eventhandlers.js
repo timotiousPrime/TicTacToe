@@ -25,5 +25,5 @@ function updateBoard(cellKey, player) {
 
 export function getPlayerOne () {
     const playerOneSelect = document.getElementById('playerOneSelect')
-    console.log(playerOneSelect.value)
+    console.log(playerOneSelect)
 }
