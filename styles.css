@@ -11,6 +11,19 @@ header{
     height: 4rem;
 }
 
+#opponentPicker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.playerBox button {
+    width: 6rem;
+    height: 2rem;
+    margin: 1rem;
+}
+
 #gameSection{
     height: 60vh;
     width: 100%;
@@ -66,4 +79,9 @@ footer {
     justify-content: center;
     align-items: center;
     height: 2rem;
+}
+
+.score {
+    align-self: center;
+    font-size: x-large;
 }
