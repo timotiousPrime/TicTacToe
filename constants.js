@@ -1,3 +1,6 @@
+// import { getPlayerOne } from "./eventhandlers.js"
+import { gameBoard } from "./gameBoard.js"
+
 export const EL_IDS = {
     GAMEBOARD: 'board',
     CELL1: 'cell1',
@@ -9,4 +12,35 @@ export const EL_IDS = {
     CELL7: 'cell7',
     CELL8: 'cell8',
     CELL9: 'cell9',
+}
+
+export const GAME_MODE = {
+    INIT: 'init',
+    RUNNING: 'running',
+    GAME_WIN: 'game-win',
+    GAME_DRAW: 'game-draw',
+}
+
+const INIT_STATE = {
+    gameMode: GAME_MODE.INIT,
+    playersTurn: 'playerOne',
+    availableCells: [1,2,3,4,5,6,7,8,9],
+    cellsUsed: [],
+}
+
+const player = (isHuman, token) => {
+    let totalWins = 0
+    let canPlay = false
+    let cellsUsed = []
+    return { isHuman, token, totalWins, canPlay, cellsUsed }
+}
+
+export const playerOne = player(true, 'x')
+export const playerTwo = player(true, 'o')
+
+export const GAME_STATE = {
+    gameMode: GAME_MODE.RUNNING,
+    playersTurn: playerOne,
+    availableCells: gameBoard.availableCells,
+    cellsUsed: gameBoard.cellsUsed,
 }
