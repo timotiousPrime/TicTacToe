@@ -13,6 +13,13 @@
         <h1>Tic Tac Toe</h1>
     </header>
     <body>
+        <section id="opponentPicker">
+            <h2>Pick your Opponent</h2>
+            <div class="playerBox">
+                <button> Human </button>
+                <button> Ai </button>    
+            </div>
+        </section>
         <section id="gameSection">
             <div id="board">
                 <div class="boardCell" data-key="1" id="cell1"></div>
@@ -29,19 +36,11 @@
         <section id="playerSection">
             <div class="playerOneZone">
                 <h3>Player One</h3>
-                <label for="playerOneSelect">Pick your player</label>
-                <select name="playerSelect" id="playerOneSelect">
-                    <option value="playerOne">Human</option>
-                    <option value="playerOneAI">AI</option>
-                </select>
+                <div class="score" id="playerOneScore">0</div>
             </div>
             <div class="playerTwoZone">
                 <h3>Player Two</h3>
-                <label for="playerTwoSelect">Pick your player</label>
-                <select name="playerSelect" id="playerTwoSelect">
-                    <option value="playerTwo">Human</option>
-                    <option value="playerTwoAI">AI</option>
-                </select>
+                <div class="score" id="playerTwoScore">0</div>
             </div>
         </section>
     </body>
