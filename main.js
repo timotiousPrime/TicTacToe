@@ -1,5 +1,5 @@
 import { gameBoard } from "./gameBoard.js"
-import { getCellClicked } from "./eventhandlers.js"
+import { getCellClicked, getPlayerOne } from "./eventhandlers.js"
 
 
 const player = (isHuman, token) => {
@@ -11,3 +11,4 @@ const player = (isHuman, token) => {
 
 getCellClicked()
 
+getPlayerOne()
