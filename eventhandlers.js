@@ -26,9 +26,6 @@ function updateState(cell, state) {
 
 function checkForWin(state) {
 
-    console.log(state.players[0])
-    console.log(state.players[1])
-    
     function checkCells(cell) {
         return state.playersTurn.cellsUsed.includes(cell)
     }
