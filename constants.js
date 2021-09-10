@@ -51,6 +51,7 @@ export const playerTwo = player(true, 'o')
 
 export const GAME_STATE = {
     gameMode: GAME_MODE.RUNNING,
+    players: [playerOne, playerTwo],
     playersTurn: playerOne,
     availableCells: gameBoard.availableCells,
     cellsUsed: gameBoard.cellsUsed,
