@@ -31,7 +31,7 @@ function checkForWin(state) {
     }
 
     winningCells.forEach( cellsArray => {
-        cellsArray.every(checkCells) ? console.log('we have a winner') : console.log('no winner yet')
+        cellsArray.every(checkCells) ? declareWinner(state) : console.log('no winner yet')
     })    
 }
 
@@ -44,4 +44,10 @@ function updateBoard(cellKey, state) {
 
 function updatePlayerTurn(state) {
     state.playersTurn === playerOne? state.playersTurn = playerTwo : state.playersTurn = playerOne
+}
+
+function declareWinner(state) {
+    const player = state.playersTurn
+    ++player.totalWins
+    console.log(`${player.playerName} is the winner`)
 }
