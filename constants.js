@@ -39,15 +39,15 @@ const INIT_STATE = {
     cellsUsed: [],
 }
 
-const player = (isHuman, token) => {
+const player = (isHuman, token, playerName) => {
     let totalWins = 0
     let canPlay = false
     let cellsUsed = []
-    return { isHuman, token, totalWins, canPlay, cellsUsed }
+    return { isHuman, token, totalWins, canPlay, cellsUsed, playerName }
 }
 
-export const playerOne = player(true, 'x')
-export const playerTwo = player(true, 'o')
+export const playerOne = player(true, 'x', 'playerOne')
+export const playerTwo = player(true, 'o', 'playerTwo')
 
 export const GAME_STATE = {
     gameMode: GAME_MODE.RUNNING,
