@@ -3,7 +3,7 @@ import { gameBoard } from './gameBoard.js'
 import { GAME_STATE } from './constants.js'
  
 export function handleGameCells(){
-    let BOARD_CELLS = document.querySelectorAll('.boardCell')
+    const BOARD_CELLS = document.querySelectorAll('.boardCell')
 
     BOARD_CELLS.forEach( cell => { 
         cell.addEventListener('click', handleClickedCell)
@@ -12,8 +12,9 @@ export function handleGameCells(){
 
 function handleClickedCell(e) {
     const cellKey = Number(e.target.dataset.key)
-    gameBoard.availableCells.includes(cellKey) ? updateState(cellKey, GAME_STATE) :
-    console.log('no can do')
+    if (gameBoard.availableCells.includes(cellKey)) {
+        updateState(cellKey, GAME_STATE)
+    }
 }
 
 function updateState(cell, state) {
@@ -21,17 +22,18 @@ function updateState(cell, state) {
     checkForWin(state)
     updatePlayerTurn(state)
     console.log(state)
-    // updateState()
+}
+
+// Checks the cells from the winning cells array are in the players used array
+// returns true if true
+function checkCells(cell) {
+    return GAME_STATE.playersTurn.cellsUsed.includes(cell)
 }
 
 function checkForWin(state) {
-
-    function checkCells(cell) {
-        return state.playersTurn.cellsUsed.includes(cell)
-    }
-
     winningCells.forEach( cellsArray => {
-        cellsArray.every(checkCells) ? declareWinner(state) : console.log('no winner yet')
+        if (cellsArray.every(checkCells)) {
+            declareWinner(state)}
     })    
 }
 
@@ -46,6 +48,7 @@ function updatePlayerTurn(state) {
     state.playersTurn === playerOne? state.playersTurn = playerTwo : state.playersTurn = playerOne
 }
 
+// Think about making this function return a winner
 function declareWinner(state) {
     const player = state.playersTurn
     ++player.totalWins
