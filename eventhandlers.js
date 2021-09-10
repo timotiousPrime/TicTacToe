@@ -25,6 +25,5 @@ function updateBoard(cellKey, state) {
 }
 
 function updatePlayerTurn(state) {
-    
-    state.playersTurn.token === 'x' ? state.playersTurn = playerTwo : state.playersTurn = playerOne
+    state.playersTurn === playerOne? state.playersTurn = playerTwo : state.playersTurn = playerOne
 }
