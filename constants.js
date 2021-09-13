@@ -41,9 +41,8 @@ const INIT_STATE = {
 
 const player = (isHuman, token, playerName) => {
     let totalWins = 0
-    let canPlay = false
     let cellsUsed = []
-    return { isHuman, token, totalWins, canPlay, cellsUsed, playerName }
+    return { isHuman, token, totalWins, cellsUsed, playerName }
 }
 
 export const playerOne = player(true, 'x', 'playerOne')
