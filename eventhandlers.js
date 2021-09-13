@@ -47,7 +47,12 @@ function updatePlayerTurn(state) {
 }
 
 function declareWinner(state) {
-    const player = state.playersTurn
-    ++player.totalWins
+    countPlayersWin(state)
     console.log(`${player.playerName} is the winner`)
 }
+
+function countPlayersWin(state) {
+    const player = state.playersTurn
+    ++player.totalWins
+}
+
