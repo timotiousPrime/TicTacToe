@@ -45,7 +45,9 @@ function updateBoard(cellKey, state) {
 }
 
 function updatePlayerTurn(state) {
-    state.playersTurn === playerOne? state.playersTurn = playerTwo : state.playersTurn = playerOne
+    state.playersTurn === playerOne ? 
+        state.playersTurn = playerTwo : 
+        state.playersTurn = playerOne
 }
 
 // Think about making this function return a winner
