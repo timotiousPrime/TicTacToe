@@ -1,4 +1,4 @@
-import { EL_IDS, playerOne, playerTwo, WINNING_CELLS } from './constants.js'
+import { EL_IDS, GAME_MODE, playerOne, playerTwo, WINNING_CELLS } from './constants.js'
 import { gameBoard } from './gameBoard.js'
 import { GAME_STATE } from './constants.js'
  
@@ -21,6 +21,7 @@ function handleClickedCell(e) {
 function updateState(cell, state) {
     updateBoard(cell, state)
     checkForWin(state)
+    checkForDraw(state)
     updatePlayerTurn(state)
     console.log(state)
 }
@@ -47,6 +48,13 @@ function checkForWin(state) {
         if (cellsArray.every(checkCells)) {
             declareWinner(state)}
     })    
+}
+
+function checkForDraw(state) {
+    if (state.availableCells.length < 1) {
+        state.gameMode = GAME_MODE.GAME_DRAW
+        console.log('game is a draw')
+    }
 }
 
 // Checks the cells from the winning cells array are in the players used array
