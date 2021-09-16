@@ -38,9 +38,17 @@ header{
     grid-template-rows: repeat(3, 1fr);
 }
 
+:root {
+    --cell-size: 15vh;
+    --token-size: calc(var(--cell-size) * 0.9)
+}
+
 .boardCell{
-    width: 15vh;
-    height: 15vh;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #cell1, #cell2, #cell4, #cell5, #cell7, #cell8 {
@@ -84,4 +92,31 @@ footer {
 .score {
     align-self: center;
     font-size: x-large;
+}
+
+.boardCell.x::before,
+.boardCell.x::after {
+    content: '';
+    position: absolute;
+    width: calc(var(--token-size) * 0.1);
+    height: var(--token-size);
+    background-color: #000;
+}
+
+.boardCell.x::before {
+    transform: rotate(45deg);
+}
+
+.boardCell.x::after {
+    transform: rotate(-45deg);
+}
+
+
+.boardCell.o::before {
+    content: '';
+    position: absolute;
+    width: calc(var(--token-size) * 0.9);
+    height: calc(var(--token-size) * 0.9);
+    border: calc(var(--token-size) * 0.1) black solid;
+    border-radius: 50%;
 }
