@@ -14,7 +14,7 @@ export const EL_IDS = {
     CELL9: 'cell9',
 }
 
-export const winningCells = [
+export const WINNING_CELLS = [
     [1,5,9],
     [3,5,7],
     [1,2,3],
