@@ -1,24 +1,32 @@
-import { EL_IDS, GAME_MODE, playerOne, playerTwo, WINNING_CELLS } from './constants.js'
+import { GAME_MODE, playerOne, playerTwo, WINNING_CELLS } from './constants.js'
 import { gameBoard } from './gameBoard.js'
-import { GAME_STATE } from './constants.js'
+import { GAME_STATE, EL_IDS, INIT_STATE } from './constants.js'
  
-export function handleGameCells(){
+export function runGame(){
+    showPlayersTurn(GAME_STATE)
+    handleGameCells('click', handleClickedCell)
+    handleRestartBtn ()
+
+}
+
+function handleGameCells(event, action){
     const BOARD_CELLS = document.querySelectorAll('.boardCell')
 
     BOARD_CELLS.forEach( cell => { 
-        cell.addEventListener('click', handleClickedCell, )
+        cell.addEventListener( event, action)
     })
 }
 
-function handleClickedCell(e) {
+const handleClickedCell = (e) => {
     const cell = e.target
     const cellKey = Number(cell.dataset.key)
-    if (gameBoard.availableCells.includes(cellKey)) {
+    if (GAME_STATE.availableCells.includes(cellKey)) {
         updateState(cell, GAME_STATE)
     }
 }
 
 function updateState(cell, state) {
+    showPlayersTurn(state)
     updateBoard(cell, state)
     checkForWin(state)
     checkForDraw(state)
@@ -29,10 +37,10 @@ function updateState(cell, state) {
 function updateBoard(cell, state) {
     const cellKey = Number(cell.dataset.key)
     const cellID =  cell.id
-    const availCellPos = gameBoard.availableCells.indexOf(cellKey)
-    gameBoard.cellsUsed.push(cellKey)
+    const availCellPos = state.availableCells.indexOf(cellKey)
+    state.cellsUsed.push(cellKey)
     state.playersTurn.cellsUsed.push(cellKey)
-    gameBoard.availableCells.splice(availCellPos,1)
+    state.availableCells.splice(availCellPos,1)
     displayToken(cellID, GAME_STATE)
 }
 
@@ -46,13 +54,15 @@ function displayToken(cellID, state) {
 function checkForWin(state) {
     WINNING_CELLS.forEach( cellsArray => {
         if (cellsArray.every(checkCells)) {
-            declareWinner(state)}
+            declareWinner(state)
+            hideBoard ()}
     })    
 }
 
 function checkForDraw(state) {
     if (state.availableCells.length < 1) {
         state.gameMode = GAME_MODE.GAME_DRAW
+        hideBoard ()
         console.log('game is a draw')
     }
 }
@@ -65,13 +75,66 @@ function checkCells(cell) {
 
 // Think about making this function return a winner
 function declareWinner(state) {
-    countPlayersWin(state)
+    const player = state.playersTurn
+
+    countPlayersWin(player)
     console.log(`${state.playersTurn.playerName} is the winner`)
 }
 
-function countPlayersWin(state) {
-    const player = state.playersTurn
+function hideBoard () {
+    EL_IDS.overlay.classList.remove('invisible')
+    EL_IDS.overlay.classList.add('visible')
+}
+
+function displayBoard() {
+    EL_IDS.overlay.classList.remove('visible')
+    EL_IDS.overlay.classList.add('invisible')
+}
+
+function handleRestartBtn () {
+    EL_IDS.restartBtn.addEventListener('click', restartGame)
+}
+
+function restartGame() {
+    resetBoard(GAME_STATE)
+    displayBoard()
+    showPlayersTurn(GAME_STATE)
+    console.log('restart game')
+}
+
+function resetBoard(){
+    const BOARD_CELLS = document.querySelectorAll('.boardCell')
+
+    BOARD_CELLS.forEach( cell => { 
+        cell.classList.remove( 'x', 'o')
+    })
+
+    GAME_STATE.availableCells = [1,2,3,4,5,6,7,8,9]
+    GAME_STATE.cellsUsed = []
+    GAME_STATE.players[0].cellsUsed = []
+    GAME_STATE.players[1].cellsUsed = []
+    GAME_STATE.playersTurn = playerOne
+
+
+}
+
+function countPlayersWin(player) {
     ++player.totalWins
+    displayWin(player)
+}
+
+function displayWin (player) {    
+    player === playerOne ? 
+    EL_IDS.playerOneScore.innerText = player.totalWins :
+    EL_IDS.playerTwoScore.innerText = player.totalWins
+}
+
+function showPlayersTurn(state){
+    state.playersTurn === playerOne ? 
+        (playerOneSection.classList.add('playing'), 
+        playerTwoSection.classList.remove('playing')) : 
+        (playerTwoSection.classList.add('playing'), 
+        playerOneSection.classList.remove('playing'))
 }
 
 function updatePlayerTurn(state) {
@@ -81,3 +144,6 @@ function updatePlayerTurn(state) {
 }
 
 
+// function displayGameOverText(state) {
+    
+// }
