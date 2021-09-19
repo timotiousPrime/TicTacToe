@@ -1,4 +1,4 @@
 // import { gameBoard } from "./gameBoard.js"
-import { handleGameCells } from "./eventhandlers.js"
+import { runGame } from "./eventhandlers.js"
 
-handleGameCells()
+runGame()
