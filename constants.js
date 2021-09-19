@@ -1,19 +1,6 @@
 // import { getPlayerOne } from "./eventhandlers.js"
 import { gameBoard } from "./gameBoard.js"
 
-export const EL_IDS = {
-    GAMEBOARD: 'board',
-    CELL1: 'cell1',
-    CELL2: 'cell2',
-    CELL3: 'cell3',
-    CELL4: 'cell4',
-    CELL5: 'cell5',
-    CELL6: 'cell6',
-    CELL7: 'cell7',
-    CELL8: 'cell8',
-    CELL9: 'cell9',
-}
-
 export const WINNING_CELLS = [
     [1,5,9],
     [3,5,7],
@@ -25,18 +12,21 @@ export const WINNING_CELLS = [
     [3,6,9],
 ]
 
+export const EL_IDS = {
+    playerOneScore: document.getElementById('playerOneScore'),
+    playerTwoScore: document.getElementById('playerTwoScore'),
+    restartBtn: document.getElementById('restartBtn'),
+    overlay: document.getElementById('gameOver'),
+    playerOneSection: document.getElementById('id="playerOneSection'),
+    playerTwoSection: document.getElementById('id="playerTwoSection'),
+    gameOverText: document.getElementById('gameOverText')
+}
+
 export const GAME_MODE = {
     INIT: 'init',
     RUNNING: 'running',
     GAME_WIN: 'game-win',
     GAME_DRAW: 'game-draw',
-}
-
-const INIT_STATE = {
-    gameMode: GAME_MODE.INIT,
-    playersTurn: 'playerOne',
-    availableCells: [1,2,3,4,5,6,7,8,9],
-    cellsUsed: [],
 }
 
 const player = (isHuman, token, playerName) => {
@@ -49,10 +39,18 @@ export const playerOne = player(true, 'x', 'playerOne')
 // Temporary until I decide how to create the second player
 export const playerTwo = player(true, 'o', 'playerTwo')
 
+export const INIT_STATE = {
+    gameMode: GAME_MODE.INIT,
+    players: [playerOne, playerTwo],
+    playersTurn: playerOne,
+    availableCells: [1,2,3,4,5,6,7,8,9],
+    cellsUsed: [],
+}
+
 export const GAME_STATE = {
     gameMode: GAME_MODE.RUNNING,
     players: [playerOne, playerTwo],
     playersTurn: playerOne,
-    availableCells: gameBoard.availableCells,
-    cellsUsed: gameBoard.cellsUsed,
+    availableCells: [1,2,3,4,5,6,7,8,9],
+    cellsUsed: [],
 }
