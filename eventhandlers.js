@@ -26,11 +26,11 @@ const handleClickedCell = (e) => {
 }
 
 function updateState(cell, state) {
-    showPlayersTurn(state)
     updateBoard(cell, state)
     checkForWin(state)
     checkForDraw(state)
     updatePlayerTurn(state)
+    showPlayersTurn(state)
     console.log(state)
 }
 
@@ -55,14 +55,18 @@ function checkForWin(state) {
     WINNING_CELLS.forEach( cellsArray => {
         if (cellsArray.every(checkCells)) {
             declareWinner(state)
-            hideBoard ()}
+            hideBoard ()
+            setGameModeToWin(state)
+            displayGameOverText(state)
+        }
     })    
 }
 
 function checkForDraw(state) {
     if (state.availableCells.length < 1) {
-        state.gameMode = GAME_MODE.GAME_DRAW
         hideBoard ()
+        setGameModeToDraw(state)
+        displayGameOverText(state)
         console.log('game is a draw')
     }
 }
@@ -72,6 +76,14 @@ function checkForDraw(state) {
 function checkCells(cell) {
     return GAME_STATE.playersTurn.cellsUsed.includes(cell)
 }    
+
+function setGameModeToWin(state){
+    state.gameMode = GAME_MODE.GAME_WIN
+}
+
+function setGameModeToDraw(state){
+    state.gameMode = GAME_MODE.GAME_DRAW
+}
 
 // Think about making this function return a winner
 function declareWinner(state) {
@@ -144,6 +156,10 @@ function updatePlayerTurn(state) {
 }
 
 
-// function displayGameOverText(state) {
-    
-// }
+function displayGameOverText(state) {
+    if(GAME_STATE.gameMode === GAME_MODE.GAME_WIN) {
+        gameOverText.innerText = `${state.playersTurn.playerName} is the winner`
+    } else if (GAME_STATE.gameMode === GAME_MODE.GAME_DRAW) {
+        gameOverText.innerText = `It's a draw`
+    }
+}
