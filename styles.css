@@ -52,12 +52,12 @@ header{
 }
 
 #cell1, #cell2, #cell4, #cell5, #cell7, #cell8 {
-    border-right: 4px solid black ;
+    border-right: 5px solid black ;
 
 }
 
 #cell4, #cell5, #cell6, #cell7, #cell8, #cell9 {
-    border-top: 4px solid black;
+    border-top: 5px solid black;
 }
 
 #playerSection{
@@ -134,9 +134,23 @@ footer {
     left: 0;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 .playing{
-    background-color: rgba(255, 166, 0, 0.562);
+    background-color: rgba(255, 166, 0, 0.55);
+}
+
+#gameOver {
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameOver > p {
+    margin: 2rem;
+    font-size: 3rem;
+    color: #FFF;
 }
