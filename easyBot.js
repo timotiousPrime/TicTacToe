@@ -2,7 +2,7 @@
 
 export function getRandomRemainingCellIndex(state) {
     const range = state.availableCells.length
-    return Math.floor(Math.random() * range -1 )
+    return Math.floor(Math.random() * range )
 }
 
 export function getAiChoice(state){
