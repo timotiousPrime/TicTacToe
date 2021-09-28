@@ -1,6 +1,7 @@
 import { GAME_MODE, playerOne, playerTwo, WINNING_CELLS } from './constants.js'
 import { gameBoard } from './gameBoard.js'
 import { GAME_STATE, EL_IDS, INIT_STATE } from './constants.js'
+import {  setAiChoice } from './easyBot.js'
  
 export function runGame(){
     showPlayersTurn(GAME_STATE)
@@ -26,13 +27,24 @@ const handleClickedCell = (e) => {
 }
 
 function updateState(cell, state) {
+    checkForAITurn(state)
     updateBoard(cell, state)
     checkForWin(state)
     checkForDraw(state)
     updatePlayerTurn(state)
     showPlayersTurn(state)
-    console.log(state)
 }
+
+function checkForAITurn(state) {
+    if (state.playersTurn.isHuman) {
+        return    
+    }
+    else if (state.gameMode === 'running') {
+        console.log(`it's the computer's turn`)
+        setAiChoice(state)
+    }
+}
+
 
 function updateBoard(cell, state) {
     const cellKey = Number(cell.dataset.key)
