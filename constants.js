@@ -37,7 +37,7 @@ const player = (isHuman, token, playerName) => {
 
 export const playerOne = player(true, 'x', 'playerOne')
 // Temporary until I decide how to create the second player
-export const playerTwo = player(false, 'o', 'playerTwo')
+export const playerTwo = player(true, 'o', 'playerTwo')
 
 export const INIT_STATE = {
     gameMode: GAME_MODE.INIT,
