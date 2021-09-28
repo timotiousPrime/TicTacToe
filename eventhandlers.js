@@ -1,13 +1,14 @@
 import { GAME_MODE, playerOne, playerTwo, WINNING_CELLS } from './constants.js'
 import { gameBoard } from './gameBoard.js'
 import { GAME_STATE, EL_IDS, INIT_STATE } from './constants.js'
-import {  setAiChoice } from './easyBot.js'
+import {  getAiChoice } from './easyBot.js'
  
 export function runGame(){
     showPlayersTurn(GAME_STATE)
+    checkForAITurn(GAME_STATE)
     handleGameCells('click', handleClickedCell)
     handleRestartBtn ()
-
+    checkForAITurn(GAME_STATE)
 }
 
 function handleGameCells(event, action){
@@ -20,6 +21,7 @@ function handleGameCells(event, action){
 
 const handleClickedCell = (e) => {
     const cell = e.target
+    console.log(cell)
     const cellKey = Number(cell.dataset.key)
     if (GAME_STATE.availableCells.includes(cellKey)) {
         updateState(cell, GAME_STATE)
@@ -27,12 +29,12 @@ const handleClickedCell = (e) => {
 }
 
 function updateState(cell, state) {
-    checkForAITurn(state)
     updateBoard(cell, state)
     checkForWin(state)
     checkForDraw(state)
     updatePlayerTurn(state)
     showPlayersTurn(state)
+    checkForAITurn(state)
 }
 
 function checkForAITurn(state) {
@@ -41,7 +43,13 @@ function checkForAITurn(state) {
     }
     else if (state.gameMode === 'running') {
         console.log(`it's the computer's turn`)
-        setAiChoice(state)
+        const AiCell = getAiChoice(state)
+        console.log(AiCell)
+        updateBoard(AiCell, state)
+        checkForWin(state)
+        checkForDraw(state)
+        updatePlayerTurn(state)
+        showPlayersTurn(state)
     }
 }
 
@@ -49,6 +57,8 @@ function checkForAITurn(state) {
 function updateBoard(cell, state) {
     const cellKey = Number(cell.dataset.key)
     const cellID =  cell.id
+    // const newCell = document.getElementById(cellID)
+    // console.log(newCell)
     const availCellPos = state.availableCells.indexOf(cellKey)
     state.cellsUsed.push(cellKey)
     state.playersTurn.cellsUsed.push(cellKey)
@@ -75,7 +85,7 @@ function checkForWin(state) {
 }
 
 function checkForDraw(state) {
-    if (state.availableCells.length < 1) {
+    if (state.availableCells.length < 1 && state.gameMode === 'running') {
         hideBoard ()
         setGameModeToDraw(state)
         displayGameOverText(state)
@@ -124,6 +134,7 @@ function restartGame() {
     displayBoard()
     showPlayersTurn(GAME_STATE)
     console.log('restart game')
+    checkForAITurn(state)
 }
 
 function resetBoard(){
