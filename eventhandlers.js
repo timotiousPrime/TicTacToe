@@ -85,7 +85,7 @@ function checkForWin(state) {
 }
 
 function checkForDraw(state) {
-    if (state.availableCells.length < 1 && state.gameMode === 'running') {
+    if (state.availableCells.length < 1 && state.gameMode !== 'game-win') {
         hideBoard ()
         setGameModeToDraw(state)
         displayGameOverText(state)
@@ -134,21 +134,29 @@ function restartGame() {
     displayBoard()
     showPlayersTurn(GAME_STATE)
     console.log('restart game')
-    checkForAITurn(state)
+    checkForAITurn(INIT_STATE)
 }
 
-function resetBoard(){
+function resetBoard(state){
     const BOARD_CELLS = document.querySelectorAll('.boardCell')
 
     BOARD_CELLS.forEach( cell => { 
         cell.classList.remove( 'x', 'o')
     })
 
+    // state = {
+    //     ...INIT_STATE,
+    //     gameMode: GAME_MODE.RUNNING
+
+    // }
+
+    // console.log(state)
+
     GAME_STATE.availableCells = [1,2,3,4,5,6,7,8,9]
     GAME_STATE.cellsUsed = []
+    GAME_STATE.playersTurn = playerOne
     GAME_STATE.players[0].cellsUsed = []
     GAME_STATE.players[1].cellsUsed = []
-    GAME_STATE.playersTurn = playerOne
 
 
 }
