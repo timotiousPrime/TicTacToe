@@ -73,52 +73,52 @@ function displayToken(cellID, state) {
     cell.classList.add(state.playersTurn.token)
 }
 
-function checkForWin(state) {
-    WINNING_CELLS.forEach( cellsArray => {
-        if (cellsArray.every(checkCells)) {
-            declareWinner(state)
-            hideBoard ()
-            setGameModeToWin(state)
-            displayGameOverText(state)
-        }
-    })    
-}
+// function checkForWin(state) {
+//     WINNING_CELLS.forEach( cellsArray => {
+//         if (cellsArray.every(checkCells)) {
+//             declareWinner(state)
+//             hideBoard ()
+//             setGameModeToWin(state)
+//             displayGameOverText(state)
+//         }
+//     })    
+// }
 
-function checkForDraw(state) {
-    if (state.availableCells.length < 1 && state.gameMode !== 'game-win') {
-        hideBoard ()
-        setGameModeToDraw(state)
-        displayGameOverText(state)
-        console.log('game is a draw')
-    }
-}
+// function checkForDraw(state) {
+//     if (state.availableCells.length < 1 && state.gameMode !== 'game-win') {
+//         hideBoard ()
+//         setGameModeToDraw(state)
+//         displayGameOverText(state)
+//         console.log('game is a draw')
+//     }
+// }
 
-// Checks the cells from the winning cells array are in the players used array
-// returns true if true
-function checkCells(cell) {
-    return GAME_STATE.playersTurn.cellsUsed.includes(cell)
-}    
+// // Checks the cells from the winning cells array are in the players used array
+// // returns true if true
+// function checkCells(cell) {
+//     return GAME_STATE.playersTurn.cellsUsed.includes(cell)
+// }    
 
-function setGameModeToWin(state){
-    state.gameMode = GAME_MODE.GAME_WIN
-}
+// function setGameModeToWin(state){
+//     state.gameMode = GAME_MODE.GAME_WIN
+// }
 
-function setGameModeToDraw(state){
-    state.gameMode = GAME_MODE.GAME_DRAW
-}
+// function setGameModeToDraw(state){
+//     state.gameMode = GAME_MODE.GAME_DRAW
+// }
 
-// Think about making this function return a winner
-function declareWinner(state) {
-    const player = state.playersTurn
+// // Think about making this function return a winner
+// function declareWinner(state) {
+//     const player = state.playersTurn
 
-    countPlayersWin(player)
-    console.log(`${state.playersTurn.playerName} is the winner`)
-}
+//     countPlayersWin(player)
+//     console.log(`${state.playersTurn.playerName} is the winner`)
+// }
 
-function hideBoard () {
-    EL_IDS.overlay.classList.remove('invisible')
-    EL_IDS.overlay.classList.add('visible')
-}
+// function hideBoard () {
+//     EL_IDS.overlay.classList.remove('invisible')
+//     EL_IDS.overlay.classList.add('visible')
+// }
 
 function displayBoard() {
     EL_IDS.overlay.classList.remove('visible')
@@ -161,16 +161,16 @@ function resetBoard(state){
 
 }
 
-function countPlayersWin(player) {
-    ++player.totalWins
-    displayWin(player)
-}
+// function countPlayersWin(player) {
+//     ++player.totalWins
+//     displayWin(player)
+// }
 
-function displayWin (player) {    
-    player === playerOne ? 
-    EL_IDS.playerOneScore.innerText = player.totalWins :
-    EL_IDS.playerTwoScore.innerText = player.totalWins
-}
+// function displayWin (player) {    
+//     player === playerOne ? 
+//     EL_IDS.playerOneScore.innerText = player.totalWins :
+//     EL_IDS.playerTwoScore.innerText = player.totalWins
+// }
 
 function showPlayersTurn(state){
     state.playersTurn === playerOne ? 
@@ -187,10 +187,10 @@ function updatePlayerTurn(state) {
 }
 
 
-function displayGameOverText(state) {
-    if(GAME_STATE.gameMode === GAME_MODE.GAME_WIN) {
-        gameOverText.innerText = `${state.playersTurn.playerName} is the winner`
-    } else if (GAME_STATE.gameMode === GAME_MODE.GAME_DRAW) {
-        gameOverText.innerText = `It's a draw`
-    }
-}
+// function displayGameOverText(state) {
+//     if(GAME_STATE.gameMode === GAME_MODE.GAME_WIN) {
+//         gameOverText.innerText = `${state.playersTurn.playerName} is the winner`
+//     } else if (GAME_STATE.gameMode === GAME_MODE.GAME_DRAW) {
+//         gameOverText.innerText = `It's a draw`
+//     }
+// }
