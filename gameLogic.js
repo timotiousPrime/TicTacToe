@@ -1,15 +1,17 @@
 function startGame () {
     checkPlayersTurn()
-    listenForPlayersMove()
-    updateState()
+    getPlayersMove()
     checkResult()
+    updateState()
 }
 
-function listenForPlayersMove(state){
+function checkPlayersTurn(state) {
     state.playersTurn === playerOne ?
         displayPlayersTurn(playerOne) :
-        displayPlayersTurn(playerTwo) :
-        
+        displayPlayersTurn(playerTwo) 
+}
+
+function getPlayersMove(state){
     state.playersTurn.isHuman ?
         getPlayersMove(state.playersTurn) :
         getAiMove(state.playersTurn)
