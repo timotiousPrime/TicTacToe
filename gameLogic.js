@@ -44,6 +44,12 @@ function countPlayersWin(player) {
     displayWin(player)
 }
 
+function displayWin (player) {    
+    player === playerOne ? 
+    EL_IDS.playerOneScore.innerText = player.totalWins :
+    EL_IDS.playerTwoScore.innerText = player.totalWins
+}
+
 
 // Checks the cells from the winning cells array are in the players used array
 // returns true if true
