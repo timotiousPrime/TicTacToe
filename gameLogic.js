@@ -74,3 +74,11 @@ function hideBoard () {
     EL_IDS.overlay.classList.remove('invisible')
     EL_IDS.overlay.classList.add('visible')
 }
+
+function displayGameOverText(state) {
+    if(GAME_STATE.gameMode === GAME_MODE.GAME_WIN) {
+        gameOverText.innerText = `${state.playersTurn.playerName} is the winner`
+    } else if (GAME_STATE.gameMode === GAME_MODE.GAME_DRAW) {
+        gameOverText.innerText = `It's a draw`
+    }
+}
