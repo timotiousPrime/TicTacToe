@@ -44,3 +44,15 @@ function declareWinner(state) {
 function checkCurrentPlayersCellsUsed(cell) {
     return GAME_STATE.playersTurn.cellsUsed.includes(cell)
 }
+
+function endGame(state, gameResult){
+    hideBoard ()
+    setGameMode(state, gameResult) :
+    displayGameOverText(state)
+}
+
+function setGameMode(state, gameResult){
+    gameResult = 'gameWin' ?
+        state.gameMode = GAME_MODE.GAME_WIN :
+        state.gameMode = GAME_MODE.GAME_DRAW
+}
