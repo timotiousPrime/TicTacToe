@@ -1,20 +1,26 @@
-function startGame () {
+function playRound () {
     checkPlayersTurn()
     getPlayersMove()
-    checkResult()
     updateState()
 }
 
 function checkPlayersTurn(state) {
     state.playersTurn === playerOne ?
-        displayPlayersTurn(playerOne) :
-        displayPlayersTurn(playerTwo) 
+    displayPlayersTurn(playerOne) :
+    displayPlayersTurn(playerTwo) 
 }
 
 function getPlayersMove(state){
     state.playersTurn.isHuman ?
-        getPlayersMove(state.playersTurn) :
-        getAiMove(state.playersTurn)
+    getPlayersMove(state.playersTurn) :
+    getAiMove(state.playersTurn)
+}
+
+function updateState(state) {
+    checkResult()
+    if (state.gameMode === 'running') {
+        playRound()
+    }
 }
 
 function checkResult(state) {
@@ -68,7 +74,6 @@ function setGameMode(state, gameResult){
         state.gameMode = GAME_MODE.GAME_WIN :
         state.gameMode = GAME_MODE.GAME_DRAW
 }
-
 
 function hideBoard () {
     EL_IDS.overlay.classList.remove('invisible')
