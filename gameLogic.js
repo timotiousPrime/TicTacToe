@@ -1,7 +1,7 @@
 function playRound () {
     checkPlayersTurn()
     getPlayersMove()
-    updateState()
+    updateGameState()
 }
 
 function checkPlayersTurn(state) {
@@ -16,7 +16,7 @@ function getPlayersMove(state){
     getAiMove(state.playersTurn)
 }
 
-function updateState(state) {
+function updateGameState(state) {
     checkResult()
     if (state.gameMode === 'running') {
         playRound()
