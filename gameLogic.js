@@ -47,7 +47,7 @@ function checkCurrentPlayersCellsUsed(cell) {
 
 function endGame(state, gameResult){
     hideBoard ()
-    setGameMode(state, gameResult) :
+    setGameMode(state, gameResult)
     displayGameOverText(state)
 }
 
@@ -55,4 +55,10 @@ function setGameMode(state, gameResult){
     gameResult = 'gameWin' ?
         state.gameMode = GAME_MODE.GAME_WIN :
         state.gameMode = GAME_MODE.GAME_DRAW
+}
+
+
+function hideBoard () {
+    EL_IDS.overlay.classList.remove('invisible')
+    EL_IDS.overlay.classList.add('visible')
 }
