@@ -31,3 +31,9 @@ function checkResult(state) {
         console.log('game is a draw')
     }
 }
+
+// Checks the cells from the winning cells array are in the players used array
+// returns true if true
+function checkCurrentPlayersCellsUsed(cell) {
+    return GAME_STATE.playersTurn.cellsUsed.includes(cell)
+}
