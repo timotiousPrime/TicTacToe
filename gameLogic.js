@@ -39,6 +39,12 @@ function declareWinner(state) {
     console.log(`${state.playersTurn.playerName} is the winner`)
 }
 
+function countPlayersWin(player) {
+    ++player.totalWins
+    displayWin(player)
+}
+
+
 // Checks the cells from the winning cells array are in the players used array
 // returns true if true
 function checkCurrentPlayersCellsUsed(cell) {
