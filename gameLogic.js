@@ -1,7 +1,12 @@
-function playRound () {
-    checkPlayersTurn()
-    getPlayersMove()
-    updateGameState()
+import { GAME_STATE, EL_IDS, INIT_STATE } from './constants.js'
+import {  getAiChoice } from './easyBot.js'
+import { GAME_MODE, playerOne, playerTwo, WINNING_CELLS } from './constants.js'
+ 
+ 
+ export function playRound (state) {
+    checkPlayersTurn(state)
+    getPlayersMove(state)
+    updateGameState(state)
 }
 
 function checkPlayersTurn(state) {
@@ -10,16 +15,32 @@ function checkPlayersTurn(state) {
     displayPlayersTurn(playerTwo) 
 }
 
+function displayPlayersTurn(player){
+    player === playerOne ? 
+    (playerOneSection.classList.add('playing'), 
+    playerTwoSection.classList.remove('playing')) : 
+    (playerTwoSection.classList.add('playing'), 
+    playerOneSection.classList.remove('playing'))
+}
+
 function getPlayersMove(state){
+    console.log(state)
+    // console.log(state.playersTurn.isHuman)
+    console.log(state.playersTurn)
+
     state.playersTurn.isHuman ?
-    getPlayersMove(state.playersTurn) :
-    getAiMove(state.playersTurn)
+    getHumanPlayersMove(state.playersTurn) :
+    getAiChoice(state)
+}
+
+function getHumanPlayersMove(player) {
+    console.log(`${player.playerName} has played a move`)
 }
 
 function updateGameState(state) {
-    checkResult()
+    checkResult(state)
     if (state.gameMode === 'running') {
-        playRound()
+        playRound(state)
     }
 }
 
