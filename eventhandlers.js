@@ -2,13 +2,15 @@ import { GAME_MODE, playerOne, playerTwo, WINNING_CELLS } from './constants.js'
 import { gameBoard } from './gameBoard.js'
 import { GAME_STATE, EL_IDS, INIT_STATE } from './constants.js'
 import {  getAiChoice } from './easyBot.js'
+import { playRound } from './gameLogic.js'
  
 export function runGame(){
-    showPlayersTurn(GAME_STATE)
-    checkForAITurn(GAME_STATE)
-    handleGameCells('click', handleClickedCell)
-    handleRestartBtn ()
-    checkForAITurn(GAME_STATE)
+    // showPlayersTurn(GAME_STATE)
+    // checkForAITurn(GAME_STATE)
+    // handleGameCells('click', handleClickedCell)
+    // handleRestartBtn ()
+    // checkForAITurn(GAME_STATE)
+    playRound(GAME_STATE)
 }
 
 function handleGameCells(event, action){
