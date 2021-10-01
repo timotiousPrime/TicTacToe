@@ -5,7 +5,7 @@ import { GAME_MODE, playerOne, playerTwo, WINNING_CELLS } from './constants.js'
  
  export function playRound (state) {
     checkPlayersTurn(state)
-    getPlayersMove(state)
+    handlePlayersMove(state)
     updateGameState(state)
 }
 
@@ -23,11 +23,7 @@ function displayPlayersTurn(player){
     playerOneSection.classList.remove('playing'))
 }
 
-function getPlayersMove(state){
-    console.log(state)
-    // console.log(state.playersTurn.isHuman)
-    console.log(state.playersTurn)
-
+function handlePlayersMove(state){
     state.playersTurn.isHuman ?
     getHumanPlayersMove(state.playersTurn) :
     getAiChoice(state)
