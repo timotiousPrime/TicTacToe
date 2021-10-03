@@ -1,7 +1,7 @@
 import * as CONSTS from './constants.js'
 
 export function startGame () {
-    let boardState = CONSTS.CreateNewBoard()
+    const boardState = CONSTS.CreateNewBoard()
     const cells = document.querySelectorAll('.boardCell')
     cells.forEach( cell => {
         cell.addEventListener('click', cellClick)
@@ -9,44 +9,56 @@ export function startGame () {
     
     function cellClick(e){
         let cellClicked = Number(e.target.dataset.key)
-        const cellAvaibleIndex = boardState.availableCells.indexOf(cellClicked)
+        let cellAvaibleIndex = boardState.availableCells.indexOf(cellClicked)
+        console.log(boardState.availableCells)
         if (boardState.availableCells[cellAvaibleIndex] === cellClicked){
             updatePlayersMove(boardState, cellClicked)
         }
         // console.log(cellClicked)
         // console.log(boardState)
     }
+
+    restartGame()
     
 }
 
 function updatePlayersMove(state, cellPlayed){
-    // const cellAvaibleIndex = state.availableCells.indexOf(cellPlayed)
-    // if (state.availableCells[cellAvaibleIndex] === cellPlayed) {
     state.updateBoardCells(cellPlayed)
     state.updatePlayersUsedCells(cellPlayed)
     state.checkResult()
     state.endGame()
     state.updatePlayersTurnAtBoard()
+    console.log('next move')
 // }
 }
 
-function endGame(state){
-    const player = state.playersTurnAtBoard
-    if (player.isWinner){
-        hideBoard ()
-        displayGameOverText(player, state)
-    } 
+function restartGame(){
+    CONSTS.EL_IDS.restartBtn.addEventListener('click', handleRestartBtn)
 }
 
-// function hideBoard () {
-//     CONSTS.EL_IDS.overlay.classList.remove('invisible')
-//     CONSTS.EL_IDS.overlay.classList.add('visible')
-// }
+function handleRestartBtn(){
+    resetBoard()
+    updatePlayers()
+    showBoard()
+    startGame()
+}
 
-// function displayGameOverText(player) {
-//     if(player.isWinner) {
-//         gameOverText.innerText = `${player.playerName} is the winner`
-//     } else if (state.gameMode === CONSTS.GAME_MODE.GAME_DRAW) {
-//         gameOverText.innerText = `It's a draw`
-//     }
-// }
+function resetBoard() {
+    const cells = document.querySelectorAll('.boardCell')
+    cells.forEach(cell => {
+        cell.classList.remove('x')
+        cell.classList.remove('o')
+    })
+}
+
+function updatePlayers() {
+    CONSTS.playerOne.cellsUsed = []
+    CONSTS.playerTwo.cellsUsed = []
+    CONSTS.playerOne.isWinner = false
+    CONSTS.playerTwo.isWinner = false
+}
+
+function showBoard() {
+    CONSTS.EL_IDS.overlay.classList.remove('visible')
+    CONSTS.EL_IDS.overlay.classList.add('invisible')
+}

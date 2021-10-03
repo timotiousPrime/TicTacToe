@@ -66,7 +66,8 @@ const BoardMethods = {
             boardCell.classList.add(this.playersTurnAtBoard.token)
             return (
                 this.availableCells.splice(cellAvaibleIndex,1),
-                this.cellsUsed.push(cellUsed)
+                this.cellsUsed.push(cellUsed),
+                console.log('cells available after click',this.availableCells)
             )
         }
     },
@@ -78,14 +79,27 @@ const BoardMethods = {
     updateGameMode(result){
         return (this.gameMode = result)
     },
+
+    hasWinningCombo (winningCombo, playerCells) {
+        const winningCells = []
+        winningCombo.forEach( cell => {
+            if (playerCells.indexOf(cell) >= 0){
+                winningCells.push(cell)
+            }
+        })
+        if (winningCells.toString() === winningCombo.toString()){
+            return true
+        }
+    },
     
     checkResult(){
-        console.log(this)
+        console.log(this.playersTurnAtBoard.playerName, this.playersTurnAtBoard.cellsUsed)
+        
         // check for win
         WINNING_CELLS.forEach( cellsArray => {
-            if (this.playersTurnAtBoard.cellsUsed.toString() === cellsArray.toString()) {
+            if (this.hasWinningCombo(cellsArray, this.playersTurnAtBoard.cellsUsed)) {
                 
-                console.log(this)
+                // console.log(this)
                 if (this.playersTurnAtBoard === playerOne) {
                     this.updateWinResult(playerOne)
                     this.endGame()
@@ -105,12 +119,12 @@ const BoardMethods = {
     },
 
     updateWinResult(player) {
+        this.updateWinCount(this.playersTurnAtBoard)
         if (player === playerOne) {
             console.log('player one is the winner')
             return (
             this.gameMode = GAME_MODE.PLAYER_ONE_WIN,
-            this.playersTurnAtBoard.isWinner = true),
-            ++this.playersTurnAtBoard.totalWins
+            this.playersTurnAtBoard.isWinner = true)
         } else {
             console.log('player two is the winner')
 
@@ -120,12 +134,24 @@ const BoardMethods = {
         }
     },
 
+    updateWinCount(player){
+        ++player.totalWins
+        player === playerOne ?
+        playerOneScore.innerText = player.totalWins :
+        playerTwoScore.innerText = player.totalWins 
+
+    },
+
     endGame(){
         const player = this.playersTurnAtBoard
         if (player.isWinner){
             this.hideBoard ()
             this.displayGameOverText(player)
-        } 
+        } else if (this.gameMode === GAME_MODE.GAME_DRAW){
+            this.hideBoard ()
+            this.displayGameOverText(player)
+        }
+        // console.log(this)
     },
 
     hideBoard() {
@@ -136,7 +162,7 @@ const BoardMethods = {
     displayGameOverText(player) {
         if(player.isWinner) {
             gameOverText.innerText = `${player.playerName} is the winner`
-        } else if (state.gameMode === GAME_MODE.GAME_DRAW) {
+        } else if (this.gameMode === GAME_MODE.GAME_DRAW) {
             gameOverText.innerText = `It's a draw`
         }
     }
