@@ -1,25 +1,24 @@
 import * as CONSTS from './constants.js'
 
-export function startGame () {
-    const cells = document.querySelectorAll('.boardCell')
-    cells.forEach( cell => {
-        cell.addEventListener('click', cellClick)
-    })
-    
-    const BoardState = CONSTS.CreateNewBoard()
+let currentBoard
 
-    
-    function cellClick(e){
-        let cellClicked = Number(e.target.dataset.key)
-        let cellAvaibleIndex = BoardState.availableCells.indexOf(cellClicked)
-        console.log(BoardState.availableCells)
-        if (BoardState.availableCells[cellAvaibleIndex] === cellClicked){
-            updatePlayersMove(BoardState, cellClicked)
-        }
-        // console.log(cellClicked)
-        // console.log(boardState)
-    }    
+export function createBoard() {
+    currentBoard = CONSTS.CreateNewBoard()
+    console.log(currentBoard)
 }
+
+CONSTS.EL_IDS.cells.forEach( cell => {
+    cell.addEventListener('click', cellClick)
+})
+
+function cellClick(e){
+        let cellClicked = Number(e.target.dataset.key)
+        let cellAvaibleIndex = currentBoard.availableCells.indexOf(cellClicked)
+        console.log(currentBoard.availableCells)
+        if (currentBoard.availableCells[cellAvaibleIndex] === cellClicked){
+            updatePlayersMove(currentBoard, cellClicked)
+        }
+    }
 
 function updatePlayersMove(state, cellPlayed){
     state.updateBoardCells(cellPlayed)
@@ -43,12 +42,11 @@ function restartGame(){
     removeEventListeners()
     updatePlayers()
     showBoard()
-    startGame()
+    createBoard()
 }
 
 function resetBoard() {
-    const cells = document.querySelectorAll('.boardCell')
-    cells.forEach(cell => {
+    CONSTS.EL_IDS.cells.forEach(cell => {
         cell.classList.remove('x')
         cell.classList.remove('o')
     })
@@ -62,10 +60,10 @@ function removeEventListeners(){
 
     function cellClick(e){
         let cellClicked = Number(e.target.dataset.key)
-        let cellAvaibleIndex = boardState.availableCells.indexOf(cellClicked)
-        console.log(boardState.availableCells)
-        if (boardState.availableCells[cellAvaibleIndex] === cellClicked){
-            updatePlayersMove(boardState, cellClicked)
+        let cellAvaibleIndex = currentBoard.availableCells.indexOf(cellClicked)
+        console.log(currentBoard.availableCells)
+        if (currentBoard.availableCells[cellAvaibleIndex] === cellClicked){
+            updatePlayersMove(currentBoard, cellClicked)
         }
     }    
 }
