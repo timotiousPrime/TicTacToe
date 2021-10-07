@@ -1,7 +1,5 @@
-// import { gameBoard } from "./gameBoard.js"
-// import { runGame } from "./eventhandlers.js"
-import { startGame, handleRestartBtn } from "./newGameLogic.js"
+import { createBoard, handleRestartBtn } from "./newGameLogic.js"
 
-startGame()
+createBoard()
 // runGame()
 handleRestartBtn()
