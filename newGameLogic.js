@@ -29,10 +29,6 @@ function updatePlayersMove(state, cellPlayed){
     console.log('next move')
 }
 
-function makeBoard(){
-    return BoardState
-}
-
 export function handleRestartBtn(){
     CONSTS.EL_IDS.restartBtn.addEventListener('click', restartGame)
 }
