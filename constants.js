@@ -18,7 +18,8 @@ export const EL_IDS = {
     overlay: document.getElementById('gameOver'),
     playerOneSection: document.getElementById('id="playerOneSection'),
     playerTwoSection: document.getElementById('id="playerTwoSection'),
-    gameOverText: document.getElementById('gameOverText')
+    gameOverText: document.getElementById('gameOverText'),
+    cells: document.querySelectorAll('.boardCell'),
 }
 
 export const GAME_MODE = {
