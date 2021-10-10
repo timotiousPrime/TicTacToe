@@ -1,32 +1,52 @@
 import * as CONSTS from './constants.js'
+import { getEasyAiChoice } from './easyBot.js'
 
-let currentBoard
+export let currentBoard
 
 export function createBoard() {
     currentBoard = CONSTS.CreateNewBoard()
-    console.log(currentBoard)
+    // console.log(currentBoard)
 }
 
 CONSTS.EL_IDS.cells.forEach( cell => {
     cell.addEventListener('click', cellClick)
 })
 
+export function startGame(){
+    createBoard()
+    currentBoard.playersTurnAtBoard.isHuman?
+    console.log('players move'):
+    updatePlayersMove(updatePlayersMove(currentBoard, getAiChoice(currentBoard)))
+}
+
 function cellClick(e){
         let cellClicked = Number(e.target.dataset.key)
         let cellAvaibleIndex = currentBoard.availableCells.indexOf(cellClicked)
-        console.log(currentBoard.availableCells)
+        console.log('available cells: ',currentBoard.availableCells)
         if (currentBoard.availableCells[cellAvaibleIndex] === cellClicked){
             updatePlayersMove(currentBoard, cellClicked)
         }
     }
 
 function updatePlayersMove(state, cellPlayed){
+    console.log('state:', state)
     state.updateBoardCells(cellPlayed)
     state.updatePlayersUsedCells(cellPlayed)
     state.checkResult()
-    state.endGame()
-    state.updatePlayersTurnAtBoard()
+    state.updatePlayersTurnAtBoard(state.endGame())
     console.log('next move')
+    checkForAiTurn(state)
+}
+
+function checkForAiTurn(state){
+    console.log('Ai difficlty: ', state.playersTurnAtBoard.difficulty)
+    if (state.gameMode === CONSTS.GAME_MODE.RUNNING) {
+        if (!state.playersTurnAtBoard.isHuman && state.playersTurnAtBoard.difficulty === 'easy') {
+            updatePlayersMove(state, getEasyAiChoice(state))}
+        else if (!state.playersTurnAtBoard.isHuman && state.playersTurnAtBoard.difficulty === 'hard') {
+            console.log('you will never win')
+        }
+    }
 }
 
 export function handleRestartBtn(){
