@@ -29,12 +29,6 @@ export const GAME_MODE = {
     GAME_DRAW: 'game-draw',
 }
 
-const AI_DIFFICULTY = {
-    EASY: 'easy',
-    MEDIUIM: 'medium',
-    HARD: 'hard'
-}
-
 const player = (isHuman, token, playerName, difficulty) => {
     let totalWins = 0
     let cellsUsed = []
@@ -158,11 +152,6 @@ const BoardMethods = {
             this.displayGameOverText(player)
             return true
         }
-        //  else if (this.gameMode === GAME_MODE.GAME_DRAW){
-        //     this.hideBoard ()
-        //     this.displayGameOverText(player)
-        // }
-        // console.log(this)
     },
 
     hideBoard() {
@@ -177,8 +166,4 @@ const BoardMethods = {
             gameOverText.innerText = `It's a draw`
         }
     },
-
-    getAiMove() {
-        
-    }
 }
