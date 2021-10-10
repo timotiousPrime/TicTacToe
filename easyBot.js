@@ -5,16 +5,11 @@ export function getRandomRemainingCellIndex(state) {
     return Math.floor(Math.random() * range )
 }
 
-export function getAiChoice(state){
+export function getEasyAiChoice(state){
     const randomCellIndex = getRandomRemainingCellIndex(state)
     const cellValue = state.availableCells[randomCellIndex]
     const cell = document.getElementById(`cell${cellValue}`)
-    
-    // cellById.classList.add(state.playersTurn.token)
-    console.log('choice has been made')
-    console.log(randomCellIndex)
-    console.log(cellValue)
-    console.log(cell)
-    return cell
+
+    return cellValue
 }
 
