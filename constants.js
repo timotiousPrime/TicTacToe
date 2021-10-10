@@ -29,16 +29,23 @@ export const GAME_MODE = {
     GAME_DRAW: 'game-draw',
 }
 
-const player = (isHuman, token, playerName) => {
+const AI_DIFFICULTY = {
+    EASY: 'easy',
+    MEDIUIM: 'medium',
+    HARD: 'hard'
+}
+
+const player = (isHuman, token, playerName, difficulty) => {
     let totalWins = 0
     let cellsUsed = []
     let isWinner = false
-    return { isHuman, token, isWinner, totalWins, cellsUsed, playerName }
+    // let difficulty = null
+    return { isHuman, token, isWinner, totalWins, cellsUsed, playerName, difficulty }
 }
 
 export const playerOne = player(true, 'x', 'playerOne')
 // Temporary until I decide how to create the second player
-export const playerTwo = player(true, 'o', 'playerTwo')
+export const playerTwo = player(false, 'o', 'playerTwo', 'hard')
 
 export function CreateNewBoard() {
     let NewBoard = Object.create(BoardMethods)
@@ -53,10 +60,11 @@ export function CreateNewBoard() {
 
 const BoardMethods = {
 
-    updatePlayersTurnAtBoard() {
+    updatePlayersTurnAtBoard(isGameOver) {
+        if (isGameOver !== true){
         return (this.playersTurnAtBoard.playerName === 'playerOne' ?
         this.playersTurnAtBoard = playerTwo :
-        this.playersTurnAtBoard = playerOne)
+        this.playersTurnAtBoard = playerOne)}
     },
 
     updateBoardCells (cellUsed) {
@@ -145,13 +153,15 @@ const BoardMethods = {
 
     endGame(){
         const player = this.playersTurnAtBoard
-        if (player.isWinner){
+        if (player.isWinner || this.gameMode === GAME_MODE.GAME_DRAW){
             this.hideBoard ()
             this.displayGameOverText(player)
-        } else if (this.gameMode === GAME_MODE.GAME_DRAW){
-            this.hideBoard ()
-            this.displayGameOverText(player)
+            return true
         }
+        //  else if (this.gameMode === GAME_MODE.GAME_DRAW){
+        //     this.hideBoard ()
+        //     this.displayGameOverText(player)
+        // }
         // console.log(this)
     },
 
@@ -166,5 +176,9 @@ const BoardMethods = {
         } else if (this.gameMode === GAME_MODE.GAME_DRAW) {
             gameOverText.innerText = `It's a draw`
         }
+    },
+
+    getAiMove() {
+        
     }
 }
