@@ -16,7 +16,7 @@ export function startGame(){
     createBoard()
     currentBoard.playersTurnAtBoard.isHuman?
     console.log('players move'):
-    updatePlayersMove(updatePlayersMove(currentBoard, getAiChoice(currentBoard)))
+    updatePlayersMove(updatePlayersMove(currentBoard, getEasyAiChoice(currentBoard)))
 }
 
 function cellClick(e){
@@ -33,13 +33,19 @@ function updatePlayersMove(state, cellPlayed){
     state.updateBoardCells(cellPlayed)
     state.updatePlayersUsedCells(cellPlayed)
     state.checkResult()
+
+    !state.endGame()? 
+    getNextPlayerReady(state) :
+    (console.log('I hope you had fun!'))
+}
+
+function getNextPlayerReady(state){
     state.updatePlayersTurnAtBoard(state.endGame())
     console.log('next move')
     checkForAiTurn(state)
 }
 
 function checkForAiTurn(state){
-    console.log('Ai difficlty: ', state.playersTurnAtBoard.difficulty)
     if (state.gameMode === CONSTS.GAME_MODE.RUNNING) {
         if (!state.playersTurnAtBoard.isHuman && state.playersTurnAtBoard.difficulty === 'easy') {
             updatePlayersMove(state, getEasyAiChoice(state))}
