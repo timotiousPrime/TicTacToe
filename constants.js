@@ -37,9 +37,9 @@ const player = (isHuman, token, playerName, difficulty) => {
     return { isHuman, token, isWinner, totalWins, cellsUsed, playerName, difficulty }
 }
 
-export const playerOne = player(true, 'x', 'playerOne')
+export const playerOne = player(false, 'x', 'playerOne', 'easy')
 // Temporary until I decide how to create the second player
-export const playerTwo = player(false, 'o', 'playerTwo', 'hard')
+export const playerTwo = player(false, 'o', 'playerTwo', 'easy')
 
 export function CreateNewBoard() {
     let NewBoard = Object.create(BoardMethods)
@@ -105,11 +105,11 @@ const BoardMethods = {
                 // console.log(this)
                 if (this.playersTurnAtBoard === playerOne) {
                     this.updateWinResult(playerOne)
-                    this.endGame()
+                    return this.endGame()
                 }
                 else {
                     this.updateWinResult(playerTwo)
-                    this.endGame()
+                    return this.endGame()
                 }
             }
         })
@@ -119,6 +119,8 @@ const BoardMethods = {
             console.log('game is a draw')
             this.endGame()
         }
+
+
     },
 
     updateWinResult(player) {
@@ -146,11 +148,13 @@ const BoardMethods = {
     },
 
     endGame(){
+        let isGameOver = false 
         const player = this.playersTurnAtBoard
-        if (player.isWinner || this.gameMode === GAME_MODE.GAME_DRAW){
+        if (player.isWinner || this.gameMode !== GAME_MODE.RUNNING){
             this.hideBoard ()
             this.displayGameOverText(player)
-            return true
+            isGameOver = true
+            return isGameOver
         }
     },
 
