@@ -37,7 +37,7 @@ const player = (isHuman, token, playerName, difficulty) => {
     return { isHuman, token, isWinner, totalWins, cellsUsed, playerName, difficulty }
 }
 
-export const playerOne = player(false, 'x', 'playerOne', 'easy')
+export const playerOne = player(true, 'x', 'playerOne', 'easy')
 // Temporary until I decide how to create the second player
 export const playerTwo = player(false, 'o', 'playerTwo', 'easy')
 
