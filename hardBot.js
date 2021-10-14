@@ -60,10 +60,16 @@ function isMovesLeft(board){
 
 function evaluate(board){
     // check for X or O victory
+    if (board.players.playerOne.isWinner){
         // return +10 if there is a win for X
+        return 10
+    } else if (board.players.playerTwo.isWinner){
         // else return -10 for O win
-
-    // if no wins then return 0
+        return -10
+        // if no wins then return 0
+    } else if (board.gameMode === 'game-draw'){
+        return 0
+    }
 }
 
 function minimax(board, depth, isMax) {
