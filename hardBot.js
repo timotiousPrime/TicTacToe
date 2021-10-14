@@ -52,7 +52,10 @@ export function getEasyAiChoice(state){
 // check if there are moves remaining on the board
 function isMovesLeft(board){
     // return true if there are 
+    return board.availableCells.length > 0 ?
+    true :
     // else return false if there are no moves left
+    false
 }
 
 function evaluate(board){
