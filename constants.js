@@ -39,7 +39,7 @@ const player = (isHuman, token, playerName, difficulty) => {
 
 export const playerOne = player(true, 'x', 'playerOne', 'easy')
 // Temporary until I decide how to create the second player
-export const playerTwo = player(false, 'o', 'playerTwo', 'easy')
+export const playerTwo = player(false, 'o', 'playerTwo', 'hard')
 
 export function CreateNewBoard() {
     let NewBoard = Object.create(BoardMethods)
@@ -59,6 +59,10 @@ const BoardMethods = {
         return (this.playersTurnAtBoard.playerName === 'playerOne' ?
         this.playersTurnAtBoard = playerTwo :
         this.playersTurnAtBoard = playerOne)}
+    },
+
+    sayHello(){
+        return console.log('testing: 1, 2, 1, 2')
     },
 
     updateBoardCells (cellUsed) {
