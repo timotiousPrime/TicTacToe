@@ -1,6 +1,8 @@
 // An impossible to defeat player
 // Using mini max algo
-import { currentBoard } from "./newGameLogic.js"
+import { CreateNewBoard } from "./constants.js"
+import { currentBoard, updatePlayersMove } from "./newGameLogic.js"
+
 
 // function findBestMove(board):
 //     bestMove = NULL
@@ -36,17 +38,17 @@ export function getRandomRemainingCellIndex(state) {
     return Math.floor(Math.random() * range )
 }
 
-export function getEasyAiChoice(state){
-    const randomCellIndex = getRandomRemainingCellIndex(state)
-    const cellValue = state.availableCells[randomCellIndex]
-    const cell = document.getElementById(`cell${cellValue}`)
+export function getHardAiChoice(state){
+    // const randomCellIndex = getRandomRemainingCellIndex(state)
+    // const cellValue = state.availableCells[randomCellIndex]
+    // const cell = document.getElementById(`cell${cellValue}`)
     
-    // cellById.classList.add(state.playersTurn.token)
-    console.log('choice has been made')
-    console.log(randomCellIndex)
-    console.log(cellValue)
+    // // cellById.classList.add(state.playersTurn.token)
+    // console.log('choice has been made')
+    // console.log(randomCellIndex)
+    // console.log(cellValue)
     // console.log(cell)
-    return cellValue
+    return findBestMove(state)
 }
 
 // check if there are moves remaining on the board
@@ -73,8 +75,13 @@ function evaluate(board){
 }
 
 function minimax(board, depth, isMax) {
+    // Create an image of the existing board to test on
+    let newBoard = {
+        ...board
+    }
+
     // gets the score of the current board
-    let score = evaluate(board)
+    let score = evaluate(newBoard)
 
     // If the maximizer has won, 
     // return their evaluated score
@@ -86,19 +93,29 @@ function minimax(board, depth, isMax) {
     if (score === -10) return score
     
     // check if it's a tie
-    if (isMovesLeft(board) == false) return 0
+    if (newBoard.availableCells < 1) return 0
 
     if (isMax) {
         let best = -1000
 
         // check all cells 
+        newBoard.availableCells.forEach( cell => {
+            // generate a virtual board to see the value of the play
+            let tempCellState = {
+                ...newBoard
+            }
+            // make a move in cell
+            updatePlayersMove(tempCellState, cell)
+            // call minimax recursively
+            best = Math.max(best, minimax(tempCellState, depth +1, !isMax))
+            // and choose max value
             // if cell is empty
-                // make a move in cell
-                // call minimax recursively
-                // and choose max value
-                best = Math.max(best, minimax(board, depth +1, !isMax))
-                // undo the move
-                return best
+            // undo the move
+            tempCellState = {
+                ...newBoard
+            }
+        })
+        return best
     }
 
     // if this minimizers turn
@@ -106,17 +123,35 @@ function minimax(board, depth, isMax) {
         let best = 1000
 
         // check all cells 
+        newBoard.availableCells.forEach( cell => {
+            // create virtual board to get value of play
+            let tempCellState = {
+                ...newBoard
+            }
             // if cell is empty
-                // make a move in cell
+            // make a move in cell
+                updatePlayersMove(tempCellState, cell)
                 // call minimax recursively
                 // and choose max value
-                best = Math.min(best, minimax(board, depth +1, !isMax))
+                best = Math.min(best, minimax(newBoard, depth +1, !isMax))
                 // undo the move
-                return best
+                tempCellState = {
+                    ...newBoard
+                }
+
+        })
+    return best
     }
 }
 
 function findBestMove(board){
+    const newState = CreateNewBoard()
+    newState.availableCells = board.availableCells
+    newState.cellsUsed = board.cellsUsed
+    newState.playersTurnAtBoard = board.playersTurnAtBoard
+    newState.gameMode = board.gameMode
+    console.log(newState)
+    newState.sayHello()
     let bestVal = -1000
     // let bestMove = new move
     // bestMove = cell
@@ -128,12 +163,25 @@ function findBestMove(board){
     
     // check all cells
         // if cell is empty
+        newState.availableCells.forEach( cell => {
+
+            let cellState = {
+                ...newState
+            }
             // make a move in cell
+            updatePlayersMove(cellState, cell)
+            
             // compute evaluate func for this move
-            let moveVal = minimax(board, 0, false)
-
+            let moveVal = minimax(cellState, 0, false)
+    
             // undo the move 
+            // hopefully the old state gets garbaage collected 
+            cellState = {
+                ...newState
+            }
 
+            cellState.playersTurnAtBoard.cellsUsed.splice(cell, 1)
+    
             // If the value of the current move
             // is more than the best value, then
             // update best 
@@ -141,6 +189,7 @@ function findBestMove(board){
                 bestMove = cell
                 bestVal = moveVal
             }
-            return bestMove
+        });
+        return bestMove
 }
 
