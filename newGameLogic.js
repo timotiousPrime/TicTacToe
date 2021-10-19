@@ -1,11 +1,13 @@
 import * as CONSTS from './constants.js'
 import { getEasyAiChoice } from './easyBot.js'
+import { getHardAiChoice } from './hardBot.js'
 
 export let currentBoard
 
 export function createBoard() {
     currentBoard = CONSTS.CreateNewBoard()
     // console.log(currentBoard)
+    return currentBoard
 }
 
 CONSTS.EL_IDS.cells.forEach( cell => {
@@ -16,7 +18,7 @@ export function startGame(){
     createBoard()
     currentBoard.playersTurnAtBoard.isHuman?
     console.log('players move'):
-    updatePlayersMove(updatePlayersMove(currentBoard, getEasyAiChoice(currentBoard)))
+    updatePlayersMove(currentBoard, getEasyAiChoice(currentBoard))
 }
 
 function cellClick(e){
@@ -28,7 +30,7 @@ function cellClick(e){
         }
     }
 
-function updatePlayersMove(state, cellPlayed){
+export function updatePlayersMove(state, cellPlayed){
     console.log('state:', state)
     state.updateBoardCells(cellPlayed)
     state.updatePlayersUsedCells(cellPlayed)
@@ -50,6 +52,7 @@ function checkForAiTurn(state){
         if (!state.playersTurnAtBoard.isHuman && state.playersTurnAtBoard.difficulty === 'easy') {
             updatePlayersMove(state, getEasyAiChoice(state))}
         else if (!state.playersTurnAtBoard.isHuman && state.playersTurnAtBoard.difficulty === 'hard') {
+            updatePlayersMove(state, getHardAiChoice(state))
             console.log('you will never win')
         }
     }
@@ -64,7 +67,7 @@ function restartGame(){
     removeEventListeners()
     updatePlayers()
     showBoard()
-    createBoard()
+    startGame()
 }
 
 function resetBoard() {
