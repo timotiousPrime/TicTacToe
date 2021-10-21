@@ -41,8 +41,67 @@ export const playerOne = player(true, 'x', 'playerOne', 'easy')
 // Temporary until I decide how to create the second player
 export const playerTwo = player(false, 'o', 'playerTwo', 'hard')
 
+export function CreateVirtualBoard(realBoard){
+    const VirtualBoard = Object.create(VirtualBoardMethods)
+    VirtualBoard.availableCells = realBoard.availableCells
+    VirtualBoard.players = realBoard.players
+    VirtualBoard.playersTurnAtBoard = realBoard.playersTurnAtBoard
+    VirtualBoard.gameMode = realBoard.gameMode
+
+    return VirtualBoard
+}
+
+const VirtualBoardMethods = {
+
+    makeMove(cell) {
+        this.availableCells.splice(cell, 1)
+        this.playersTurnAtBoard.cellsUsed.push(cell)
+        this.checkMoveResult()
+        return this
+    },
+
+    checkMoveResult(){
+        console.log(this.playersTurnAtBoard.playerName, this.playersTurnAtBoard.cellsUsed)
+        
+        // check for win
+        WINNING_CELLS.forEach( cellsArray => {
+            if (this.hasWinningCombo(cellsArray, this.playersTurnAtBoard.cellsUsed)) {
+                this.playersTurnAtBoard.isWinner = true
+                return 
+            }
+        })
+        // Check for draw
+        if (this.availableCells.length < 1 && this.playersTurnAtBoard.isWinner == false) {
+            this.gameMode = GAME_MODE.GAME_DRAW
+            console.log('game is a draw')
+            return
+        }
+    },
+
+    hasWinningCombo (winningCombo, playerCells) {
+        const winningCells = []
+        winningCombo.forEach( cell => {
+            if (playerCells.indexOf(cell) >= 0){
+                winningCells.push(cell)
+                }
+            })
+        if (winningCells.toString() === winningCombo.toString()){
+            return true
+        }
+    },
+    
+    undoMove(oldState){
+        this.availableCells = oldState.availableCells
+        this.players = oldState.players
+        this.playersTurnAtBoard = oldState.playersTurnAtBoard
+        this.gameMode = oldState.gameMode
+        return this
+    }
+}
+
+
 export function CreateNewBoard() {
-    let NewBoard = Object.create(BoardMethods)
+    const NewBoard = Object.create(BoardMethods)
     NewBoard.availableCells = [1,2,3,4,5,6,7,8,9]
     NewBoard.cellsUsed = []
     NewBoard.players = [playerOne, playerTwo]
@@ -109,12 +168,11 @@ const BoardMethods = {
                 // console.log(this)
                 if (this.playersTurnAtBoard === playerOne) {
                     this.updateWinResult(playerOne)
-                    return this.endGame()
                 }
                 else {
                     this.updateWinResult(playerTwo)
-                    return this.endGame()
                 }
+                return this.endGame()
             }
         })
         // Check for draw
