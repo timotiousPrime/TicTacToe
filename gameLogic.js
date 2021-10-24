@@ -1,145 +1,186 @@
-// import {  getAiChoice } from './easyBot.js'
-// import { GAME_MODE, playerOne, playerTwo, WINNING_CELLS, GAME_STATE, EL_IDS, INIT_STATE } from './constants.js'
-// import { handleGameCells, handleClickedCell } from './eventhandlers.js'
- 
-//  export function playRound (state) {
-//     checkPlayersTurn(state)
-//     // handlePlayersMove(state)
+// import { currentBoard } from "./newGameLogic"
+
+// import { startGame, updatePlayersMove } from "./newGameLogic"
+
+import * as CONSTS from './constants.js'
+
+
+const WINNING_CELLS = [
+    [ 1, 5, 9 ],
+    [ 3, 5, 7 ],
+    [ 1, 2, 3 ],
+    [ 4, 5, 6 ],
+    [ 7, 8, 9 ],
+    [ 1, 4, 7 ],
+    [ 2, 5, 8 ],
+    [ 3, 6, 9 ],
+]
+
+function CreateNewBoard(){
+    let NewBoard = Object.create(BoardMethods)
+    NewBoard.cells = [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+    ]
+    NewBoard.currentPlayer = playerOne
+    NewBoard.gameMode = 'running'
+    return NewBoard
+}
+
+const BoardMethods = {
+
+    // if cell is available, the board updates with players move
+    updateCellChoice(cell) {
+        const cellIndex = Number(cell - 1)
+        if (this.cells[cellIndex] === null ) {
+            this.cells[cellIndex] = String(this.currentPlayer.token)
+        }
+    },
+
+    undoMove(cellIndex){
+        this.cells[cellIndex] = null
+    },
+
+    printBoardState(){
+        this.cells.map( (cell, index) => {
+            if ( cell !== null ) {
+                const cellID = `cell${index+1}`
+                const boardCell = document.getElementById(cellID)
+                boardCell.classList.add(cell) 
+            }
+        })
+    },
+
+    isWinner(winCombo){
+            return (this.cells[Number(winCombo[0]) -1 ] === this.currentPlayer.token && 
+                    this.cells[Number(winCombo[1]) -1 ] === this.currentPlayer.token && 
+                    this.cells[Number(winCombo[2]) -1 ] === this.currentPlayer.token) 
+    },
+
+    // this return if the game is NOT a draw,
+    // get the NOT answer when you call this func
+    isDraw(cell) {
+        console.log(cell)
+        return ( cell === null) 
+    },
     
-//     updateGameState(state)
-// }
+    isGameOver () {
+        console.log('this for isGameOver')
+        if (CONSTS.WINNING_CELLS.some((this.isWinner), this)){
+            this.gameMode = 'win'
+            console.log(this.gameMode)
+            return true
+        }
+        if (!this.cells.some((this.isDraw), this)) {
+            this.gameMode = 'draw'
+            console.log(this.gameMode)
+            return true
+        }
+        return false
+    },
+    
+}
 
-// function checkPlayersTurn(state) {
-//     state.playersTurn === playerOne ?
-//     displayPlayersTurn(playerOne) :
-//     displayPlayersTurn(playerTwo) 
-// }
-
-// function displayPlayersTurn(player){
-//     player === playerOne ? 
-//     (playerOneSection.classList.add('playing'), 
-//     playerTwoSection.classList.remove('playing')) : 
-//     (playerTwoSection.classList.add('playing'), 
-//     playerOneSection.classList.remove('playing'))
-// }
-
-// function handlePlayersMove(state){
-//     let playersMove
-//     state.playersTurn.isHuman ?
-//     handleGameCells() :
-//     playersMove = getAiChoice(state)
-
-//     console.log(playersMove)
-//     // updateBoard(playersMove, state)
-// }
-
-// function getHumanPlayersMove(player) {
-//     console.log(handleGameCells('click', handleClickedCell))
-//     return handleGameCells('click', handleClickedCell)
-//     // console.log(`${player.playerName} has played a move`)
-// }
-
-// function updateGameState(state) {
-//     checkResult(state)
-//     updatePlayerTurn(state)
-//     // if (state.gameMode === 'running') {
-//     //     // playRound(state)
-//     // }
-// }
+const player = (isHuman, token, playerName, difficulty) => {
+    let totalWins = 0
+    let isWinner = false
+    // let difficulty = null
+    return { isHuman, token, isWinner, totalWins, playerName, difficulty }
+}
 
 
-// // export function updateBoard(cell, state) {
-// //     const cellKey = Number(cell.dataset.key)
-// //     const cellID =  cell.id
-// //     // const newCell = document.getElementById(cellID)
-// //     // console.log(newCell)
-// //     const availCellPos = state.availableCells.indexOf(cellKey)
-// //     state.cellsUsed.push(cellKey)
-// //     state.playersTurn.cellsUsed.push(cellKey)
-// //     state.availableCells.splice(availCellPos,1)
-// //     displayToken(cellID, state)
-// //     // displayToken(cellID, GAME_STATE)
-// // }
+const playerOne = player(true, 'x', 'playerOne')
+// Temporary until I decide how to create the second player
+const playerTwo = player(false, 'o', 'playerTwo', 'easy')
+
+let board
+
+function createGameBoard(){
+    board = CreateNewBoard()    
+    return board
+}
 
 
-// function displayToken(cellID, state) {
-//     const cell = document.getElementById(cellID)
-//     console.log(state.playersTurn.token)
-//     console.log(state)
-//     cell.classList.add(state.playersTurn.token)
-// }
+export function runGame(){
+    console.log('game has started')
+    // make new Board to play with
+    createGameBoard()
+    
+    console.log(board.currentPlayer.playerName, board.currentPlayer, board.gameMode)
+    console.log('board cells: ')
+    console.table( board.cells )
 
+    // see whose turn it is and handle their play
+    handlePlayersChoice(board)
 
-// export function checkResult(state) {
-//     // Check for win
-//     WINNING_CELLS.forEach( cellsArray => {
-//         if (cellsArray.every(checkCurrentPlayersCellsUsed)) {
-//             declareWinner(state)
-//             endGame(state, 'gameWin')
-//         }
-//     })    
-//     // Check for draw
-//     if (state.availableCells.length < 1 && state.gameMode !== 'game-win') {
-//         endGame(state, 'gameDraw')
-//         console.log('game is a draw')
-//     }
-// }
+}
 
-// function declareWinner(state) {
-//     const player = state.playersTurn
+CONSTS.EL_IDS.cells.forEach( (cell) => {
+    cell.addEventListener('click', (e) => {
+        let cellClicked = Number(e.target.dataset.key)
+        console.log(`${board.currentPlayer.playerName} chose cell` + String(cellClicked))
+        if (cellClicked >= 1 && cellClicked <= 9){
+            handleHumanChoice(board, cellClicked)
+        }
+    })
+})
+            
+function handlePlayersChoice(board) {
+    board.currentPlayer.isHuman ? 
+        console.log(`it's a humans turn`) : 
+        handleAiChoice(board) 
+}
 
-//     countPlayersWin(player)
-//     console.log(`${state.playersTurn.playerName} is the winner`)
-// }
+function handleHumanChoice(board, cellClicked) {
 
-// function countPlayersWin(player) {
-//     ++player.totalWins
-//     displayWin(player)
-// }
+    if (board.cells[cellClicked -1] === null) {
 
-// function displayWin (player) {    
-//     player === playerOne ? 
-//     EL_IDS.playerOneScore.innerText = player.totalWins :
-//     EL_IDS.playerTwoScore.innerText = player.totalWins
-// }
+        board.updateCellChoice(cellClicked)
+        console.log('board cells after clicking') 
+        console.table(board.cells)
+        
+        board.printBoardState()
 
+        let  gameOver = board.isGameOver()
+        console.log(gameOver)
 
-// // Checks the cells from the winning cells array are in the players used array
-// // returns true if true
-// function checkCurrentPlayersCellsUsed(cell) {
-//     return GAME_STATE.playersTurn.cellsUsed.includes(cell)
-// }
+        if (board.isGameOver()){ 
+            console.log('hello?')
+            return endGame(board) 
+            } 
+        else {
+            console.log('Hi!')
+            nextPlayersTurn (board)
+            handlePlayersChoice(board)
+            }
+    } else console.log('please choose a different cell')
+}
 
-// function endGame(state, gameResult){
-//     hideBoard ()
-//     setGameMode(state, gameResult)
-//     displayGameOverText(state)
-// }
+function handleAiChoice(board) {
+    if (board.currentPlayer.difficulty === 'easy'){
+        
+    }
+}
 
+function nextPlayersTurn (board) {
+    board.currentPlayer === playerOne ? 
+        board.currentPlayer = playerTwo : 
+        board.currentPlayer = playerOne
 
-// export function updatePlayerTurn(state) {
-//     state.playersTurn === playerOne ? 
-//         state.playersTurn = playerTwo : 
-//         state.playersTurn = playerOne
-// }
+    console.log(`it is now ${board.currentPlayer.playerName}'s turn'`)
+}
 
-
-
-// function setGameMode(state, gameResult){
-//     gameResult = 'gameWin' ?
-//         state.gameMode = GAME_MODE.GAME_WIN :
-//         state.gameMode = GAME_MODE.GAME_DRAW
-// }
-
-// function hideBoard () {
-//     EL_IDS.overlay.classList.remove('invisible')
-//     EL_IDS.overlay.classList.add('visible')
-// }
-
-// function displayGameOverText(state) {
-//     if(GAME_STATE.gameMode === GAME_MODE.GAME_WIN) {
-//         gameOverText.innerText = `${state.playersTurn.playerName} is the winner`
-//     } else if (GAME_STATE.gameMode === GAME_MODE.GAME_DRAW) {
-//         gameOverText.innerText = `It's a draw`
-//     }
-// }
+function endGame(board){ 
+    if (board.gameMode === 'draw'){
+        console.log(`It's a draw!`)
+    }
+    if (board.gameMode === 'win'){
+    console.log(`${board.currentPlayer.playerName} is the winner`)}
+}
