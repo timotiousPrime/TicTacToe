@@ -41,6 +41,12 @@ export const playerOne = player(true, 'x', 'playerOne', 'easy')
 // Temporary until I decide how to create the second player
 export const playerTwo = player(false, 'o', 'playerTwo', 'hard')
 
+
+playerOne.cellsUsed = [1, 2, 9]
+playerTwo.cellsUsed = [5, 6, 8]
+
+
+
 export function CreateVirtualBoard(realBoard){
     const VirtualBoard = Object.create(VirtualBoardMethods)
     VirtualBoard.availableCells = realBoard.availableCells
@@ -51,13 +57,24 @@ export function CreateVirtualBoard(realBoard){
     return VirtualBoard
 }
 
+let count = 0
 const VirtualBoardMethods = {
 
     makeMove(cell) {
-        this.availableCells.splice(cell, 1)
-        this.playersTurnAtBoard.cellsUsed.push(cell)
-        this.checkMoveResult()
-        return this
+        if (this.availableCells.indexOf(cell) >= 0 && this.playersTurnAtBoard.cellsUsed.indexOf(cell) >= 0){
+            this.availableCells.splice(cell, 1)
+            this.playersTurnAtBoard.cellsUsed.push(cell)
+            this.checkMoveResult()
+            console.log('move complete')
+            count++
+            console.log(count)
+            // if (count > 200) {
+            //     console.error("too much recursion")
+            //     throw new Error
+            //     return gameOvere()
+            // }
+            return this
+        }
     },
 
     checkMoveResult(){
@@ -67,14 +84,13 @@ const VirtualBoardMethods = {
         WINNING_CELLS.forEach( cellsArray => {
             if (this.hasWinningCombo(cellsArray, this.playersTurnAtBoard.cellsUsed)) {
                 this.playersTurnAtBoard.isWinner = true
-                return 
             }
         })
         // Check for draw
         if (this.availableCells.length < 1 && this.playersTurnAtBoard.isWinner == false) {
             this.gameMode = GAME_MODE.GAME_DRAW
             console.log('game is a draw')
-            return
+
         }
     },
 
@@ -90,20 +106,20 @@ const VirtualBoardMethods = {
         }
     },
     
-    undoMove(oldState){
-        this.availableCells = oldState.availableCells
-        this.players = oldState.players
-        this.playersTurnAtBoard = oldState.playersTurnAtBoard
-        this.gameMode = oldState.gameMode
-        return this
+    undoMove(cell){
+        this.availableCells.push(cell)
+        this.playersTurnAtBoard.cellsUsed.splice(cell, 1)
+        this.playersTurnAtBoard.isWinner = false
+        this.gameMode = GAME_MODE.RUNNING
     }
 }
+// NewBoard.cellsUsed = []
 
+    // NewBoard.availableCells = [1,2,3,4,5,6,7,8,9]
 
 export function CreateNewBoard() {
     const NewBoard = Object.create(BoardMethods)
-    NewBoard.availableCells = [1,2,3,4,5,6,7,8,9]
-    NewBoard.cellsUsed = []
+    NewBoard.availableCells = [3, 4, 7]
     NewBoard.players = [playerOne, playerTwo]
     NewBoard.playersTurnAtBoard = playerOne
     NewBoard.gameMode = GAME_MODE.RUNNING
@@ -132,7 +148,7 @@ const BoardMethods = {
             boardCell.classList.add(this.playersTurnAtBoard.token)
             return (
                 this.availableCells.splice(cellAvaibleIndex,1),
-                this.cellsUsed.push(cellUsed),
+                this.playersTurnAtBoard.cellsUsed.push(cellUsed),
                 console.log('cells available after click',this.availableCells)
             )
         }
