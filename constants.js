@@ -42,8 +42,8 @@ export const playerOne = player(true, 'x', 'playerOne', 'easy')
 export const playerTwo = player(false, 'o', 'playerTwo', 'hard')
 
 
-playerOne.cellsUsed = [1, 2, 9]
-playerTwo.cellsUsed = [5, 6, 8]
+// playerOne.cellsUsed = [1, 2, 9]
+// playerTwo.cellsUsed = [5, 6, 8]
 
 
 
