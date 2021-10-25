@@ -1,7 +1,9 @@
 // An impossible to defeat player
 // Using mini max algo
 import { CreateNewBoard, CreateVirtualBoard, playerOne, playerTwo } from "./constants.js"
-import { currentBoard, updatePlayersMove } from "./newGameLogic.js"
+// import { currentBoard, updatePlayersMove } from "./newGame Logic.js"
+import * as CONSTS from "./constants.js"
+
 
 // function findBestMove(board):
 //     bestMove = NULL
@@ -48,9 +50,12 @@ export function getHardAiChoice(state){
     // console.log(cellValue)
     // console.log(cell)
 
-    if (state.availableCells.length > 0){
-        return findBestMove(state)
-    }
+    // if (state.availableCells.length > 0){
+    //     return findBestMove(state)
+    // }
+    let BM = findBestMove(state)
+    console.log('best move: ', BM)
+    return BM
 }
 
 // // check if there are moves remaining on the board
@@ -175,15 +180,14 @@ export function getHardAiChoice(state){
 //         return bestMove
 // }
 
-function findBestMove(board){
+export function findBestMove(board){
     // let VB = CreateVirtualBoard(board)
     
     let bestMove = null
     let bestVal = -1000
 
-
     // for each available cell
-    for (let i = 0; i < board.cells.length; i++){
+    for (let i = 0; i < 9; i++){
         if (board.cells[i] === null){
 
             // make a move
@@ -198,69 +202,61 @@ function findBestMove(board){
             }
         }
     }
-    
-    // board.cells.forEach( cell => {
-
-    //     VB.makeMove(cell)
-
-    //     console.log(cell)
-    //     let moveVal = minimax(board, 0, board.currentPlayer === playerOne)
-
-    //     VB.undoMove(cell)
-
-
-    //     if (moveVal > bestVal) {
-    //         bestMove = cell
-    //         bestVal = moveVal
-    //     }
-
-    // })
-
     return bestMove
 }
 
 function minimax(board, depth, isMaximizer) {
-    console.log(board)
     // check if board is terminal and return result if it is
-    if (board.playersTurnAtBoard === playerOne && board.playersTurnAtBoard.isWinner === true) {
-        return 10
+    if (board.currentPlayer.playerName === playerOne ) {
+        if (CONSTS.WINNING_CELLS.some ((board.isWinner), board)){
+            return 10
+        }
     }
 
-    if (board.playersTurnAtBoard === playerTwo && board.playersTurnAtBoard.isWinner === true) {
-        return -10
+    if (board.currentPlayer.playerName === playerTwo ) {
+        if (CONSTS.WINNING_CELLS.some ((board.isWinner), board)){
+            return -10
+        }
     }
 
-    if (board.gameMode === 'game-draw') {
+    if (!board.cells.some((board.isDraw), board)) {
         return 0
     }
 
     if (isMaximizer) {
         let bestVal = -Infinity
-        board.availableCells.forEach( (cell) => {
-            // create virtualboard 
+
+        for (let i = 0; i< board.cells.length; i++){
+            if (board.cells[i] === null){
+                let value = minimax(board.updateCellChoice(i + 1), depth, false)
+                board.undoMove(i)
+                bestVal = Math.max(value, bestVal)
+
+            }
+        }
+        return bestVal
+        // board.availableCells.forEach( (cell) => {
+        //     // create virtualboard 
             
 
-            let value = minimax(board.makeMove(cell), depth, false)
+        //     let value = minimax(board.updateCellChoice(i + 1), depth, false)
 
-            board.undoMove(cell)
+        //     board.undoMove(i)
 
-            bestVal = Math.max(value, bestVal)
-        })
-        return bestVal
+        //     bestVal = Math.max(value, bestVal)
+        // })
 
     } else {
 
         let bestVal = +Infinity
-        board.availableCells.forEach( (cell) => {
-            // create virtualboard 
+        for (let i = 0; i< board.cells.length; i++){
+            if (board.cells[i] === null){
+                let value = minimax(board.updateCellChoice(i + 1), depth, true)
+                board.undoMove(i)
+                bestVal = Math.min(value, bestVal)
+            }
 
-            let value = minimax(board.makeMove(cell), depth, true)
-
-            board.undoMove(cell)
-
-
-            bestVal = Math.min(value, bestVal)
-        })
+        }
         return bestVal
     }
 }
