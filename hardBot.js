@@ -1,60 +1,16 @@
-// An impossible to defeat player
-// Using mini max algo
 import { CreateNewBoard, CreateVirtualBoard, playerOne, playerTwo } from "./constants.js"
-// import { currentBoard, updatePlayersMove } from "./newGame Logic.js"
 import * as CONSTS from "./constants.js"
 
-
-// function findBestMove(board):
-//     bestMove = NULL
-//     for each move in board :
-//         if current move is better than bestMove
-//             bestMove = current move
-//     return bestMove
-
-// function minimax(board, depth, isMaximizingPlayer):
-
-//     if current board state is a terminal state :
-//         return value of the board
-    
-//     if isMaximizingPlayer :
-//         bestVal = -INFINITY 
-//         for each move in board :
-//             value = minimax(board, depth+1, false)
-//             bestVal = max( bestVal, value) 
-//         return bestVal
-
-//     else :
-//         bestVal = +INFINITY 
-//         for each move in board :
-//             value = minimax(board, depth+1, true)
-//             bestVal = min( bestVal, value) 
-//         return bestVal 
-
-
-
-// export function getRandomRemainingCellIndex(state) {
-//     console.log(state)
-//     const range = state.availableCells.length
-//     return Math.floor(Math.random() * range )
-// }
+// An impossible to defeat player
+// Using mini max algo
 
 export function getHardAiChoice(state){
-    // const randomCellIndex = getRandomRemainingCellIndex(state)
-    // const cellValue = state.availableCells[randomCellIndex]
-    // const cell = document.getElementById(`cell${cellValue}`)
-    
-    // // cellById.classList.add(state.playersTurn.token)
-    // console.log('choice has been made')
-    // console.log(randomCellIndex)
-    // console.log(cellValue)
-    // console.log(cell)
 
     // if (state.availableCells.length > 0){
     //     return findBestMove(state)
     // }
-    let BM = findBestMove(state)
-    console.log('best move: ', BM)
+    let BM = Number(findBestMove(state)) + 1
+    console.log('best move: cell', BM)
     return BM
 }
 
@@ -181,7 +137,6 @@ export function getHardAiChoice(state){
 // }
 
 export function findBestMove(board){
-    // let VB = CreateVirtualBoard(board)
     
     let bestMove = null
     let bestVal = -1000
@@ -192,16 +147,20 @@ export function findBestMove(board){
 
             // make a move
             board.updateCellChoice(i+1)
-            let moveVal = minimax(board, 0, board.currentPlayer === playerOne)
 
+            // Get value of this cell after playing it
+            let moveVal = minimax(board, 3, board.currentPlayer === playerOne)
+
+            console.log(moveVal)
             board.undoMove(i)
 
             if (moveVal > bestVal){
-                bestMove = cell
+                bestMove = i
                 bestVal = moveVal
             }
         }
     }
+    console.log(bestMove)
     return bestMove
 }
 
@@ -226,9 +185,10 @@ function minimax(board, depth, isMaximizer) {
     if (isMaximizer) {
         let bestVal = -Infinity
 
-        for (let i = 0; i< board.cells.length; i++){
+        for (let i = 0; i < 9; i++){
             if (board.cells[i] === null){
-                let value = minimax(board.updateCellChoice(i + 1), depth, false)
+                board.updateCellChoice(i + 1)
+                let value = minimax(board, depth, false)
                 board.undoMove(i)
                 bestVal = Math.max(value, bestVal)
 
@@ -239,7 +199,7 @@ function minimax(board, depth, isMaximizer) {
         //     // create virtualboard 
             
 
-        //     let value = minimax(board.updateCellChoice(i + 1), depth, false)
+        //     let value = minimax(board, depth, false)
 
         //     board.undoMove(i)
 
@@ -251,8 +211,13 @@ function minimax(board, depth, isMaximizer) {
         let bestVal = +Infinity
         for (let i = 0; i< board.cells.length; i++){
             if (board.cells[i] === null){
-                let value = minimax(board.updateCellChoice(i + 1), depth, true)
+                // Make move
+                board.updateCellChoice(i + 1)
+                // Get value from the move you just made
+                let value = minimax(board, depth, true)
+                // After you have the value, undo the move
                 board.undoMove(i)
+                // Get the smallest value 
                 bestVal = Math.min(value, bestVal)
             }
 

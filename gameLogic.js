@@ -1,5 +1,5 @@
 // import { currentBoard } from "./newGameLogic"
-import { findBestMove } from './hardBot.js' 
+import { getHardAiChoice } from './hardBot.js' 
 // import { startGame, updatePlayersMove } from "./newGameLogic"
 
 import * as CONSTS from './constants.js'
@@ -20,14 +20,14 @@ function CreateNewBoard(){
     let NewBoard = Object.create(BoardMethods)
     NewBoard.cells = [
         null,
+        'x',
         null,
         null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
+        'o',
+        'o',
+        'x',
+        'o',
+        'x',
     ]
     NewBoard.currentPlayer = playerOne
     NewBoard.gameMode = 'running'
@@ -115,6 +115,7 @@ export function runGame(){
     console.log('board cells: ')
     console.table( board.cells )
 
+    board.printBoardState()
     // see whose turn it is and handle their play
     handlePlayersChoice(board)
 
@@ -165,8 +166,13 @@ function handleAiChoice(board) {
     console.log(board.currentPlayer.difficulty)
     if (board.currentPlayer.difficulty === 'hard'){
         console.log("AI will now choose a cell")
-        board.updateCellChoice(findBestMove(board))
+        console.log(board)
+        let AIMove = getHardAiChoice(board)
+        console.log(AIMove)
+        board.updateCellChoice(AIMove)
     }
+
+    console.table(board.cells)
 
     board.printBoardState()
 
@@ -175,7 +181,7 @@ function handleAiChoice(board) {
         return endGame(board) 
         } 
     else {
-        console.log('Hi!')
+        console.log(`${board.currentPlayer.playerName}'s turn has just ended`)
         nextPlayersTurn (board)
         handlePlayersChoice(board)
         }
