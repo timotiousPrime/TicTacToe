@@ -1,5 +1,5 @@
 // import { currentBoard } from "./newGameLogic"
-
+import { findBestMove } from './hardBot.js' 
 // import { startGame, updatePlayersMove } from "./newGameLogic"
 
 import * as CONSTS from './constants.js'
@@ -67,20 +67,18 @@ const BoardMethods = {
     // this return if the game is NOT a draw,
     // get the NOT answer when you call this func
     isDraw(cell) {
-        console.log(cell)
         return ( cell === null) 
     },
     
     isGameOver () {
-        console.log('this for isGameOver')
         if (CONSTS.WINNING_CELLS.some((this.isWinner), this)){
             this.gameMode = 'win'
-            console.log(this.gameMode)
+            console.log('win?', this.gameMode)
             return true
         }
         if (!this.cells.some((this.isDraw), this)) {
             this.gameMode = 'draw'
-            console.log(this.gameMode)
+            console.log('draw?', this.gameMode)
             return true
         }
         return false
@@ -98,7 +96,7 @@ const player = (isHuman, token, playerName, difficulty) => {
 
 const playerOne = player(true, 'x', 'playerOne')
 // Temporary until I decide how to create the second player
-const playerTwo = player(false, 'o', 'playerTwo', 'easy')
+const playerTwo = player(false, 'o', 'playerTwo', 'hard')
 
 let board
 
@@ -149,14 +147,14 @@ function handleHumanChoice(board, cellClicked) {
         board.printBoardState()
 
         let  gameOver = board.isGameOver()
-        console.log(gameOver)
+        console.log("game over?", gameOver)
 
         if (board.isGameOver()){ 
             console.log('hello?')
             return endGame(board) 
             } 
         else {
-            console.log('Hi!')
+            console.log('Next turn')
             nextPlayersTurn (board)
             handlePlayersChoice(board)
             }
@@ -164,9 +162,23 @@ function handleHumanChoice(board, cellClicked) {
 }
 
 function handleAiChoice(board) {
-    if (board.currentPlayer.difficulty === 'easy'){
-        
+    console.log(board.currentPlayer.difficulty)
+    if (board.currentPlayer.difficulty === 'hard'){
+        console.log("AI will now choose a cell")
+        board.updateCellChoice(findBestMove(board))
     }
+
+    board.printBoardState()
+
+    if (board.isGameOver()){ 
+        console.log('hello?')
+        return endGame(board) 
+        } 
+    else {
+        console.log('Hi!')
+        nextPlayersTurn (board)
+        handlePlayersChoice(board)
+        }
 }
 
 function nextPlayersTurn (board) {
