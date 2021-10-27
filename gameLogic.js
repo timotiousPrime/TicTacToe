@@ -18,6 +18,17 @@ const WINNING_CELLS = [
 
 function CreateNewBoard(){
     let NewBoard = Object.create(BoardMethods)
+    // NewBoard.cells = [
+    //     null,
+    //     null,
+    //     null,
+    //     null,
+    //     null,
+    //     null,
+    //     null,
+    //     null,
+    //     null,
+    // ]
     NewBoard.cells = [
         null,
         'x',
@@ -94,7 +105,7 @@ const player = (isHuman, token, playerName, difficulty) => {
 }
 
 
-const playerOne = player(true, 'x', 'playerOne')
+const playerOne = player(true, 'x', 'playerOne', 'hard')
 // Temporary until I decide how to create the second player
 const playerTwo = player(false, 'o', 'playerTwo', 'hard')
 

@@ -24,7 +24,7 @@ export function findBestMove(board){
             board.updateCellChoice(i+1)
 
             // Get value of this cell after playing it
-            let moveVal = minimax(board, 3, board.currentPlayer === playerOne)
+            let moveVal = minimax(board, 3, true)
 
             console.log(`move value for cell index ${i}`,moveVal)
             board.undoMove(i)
@@ -35,7 +35,7 @@ export function findBestMove(board){
                         bestVal = moveVal
                     }
 
-            //     if (board.currentPlayer === playerOne) {
+            //     if (isMaximizer) {
             //         let bestVal = -1000
             //         if (moveVal > bestVal){
             //             bestMove = i
@@ -56,9 +56,9 @@ export function findBestMove(board){
 }
 
 function minimax(board, depth, isMaximizer) {
-    isMaximizer ? 
-    board.currentPlayer = playerOne :
-    board.currentPlayer = playerTwo
+    // isMaximizer ? 
+    // board.currentPlayer = playerOne :
+    // board.currentPlayer = playerTwo
 
     // check if board is terminal and return result if it is
     if ( isMaximizer ) {
