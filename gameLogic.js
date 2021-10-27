@@ -21,13 +21,13 @@ function CreateNewBoard(){
     NewBoard.cells = [
         null,
         'x',
-        null,
+        'x',
         null,
         'o',
         'o',
         'x',
         'o',
-        'x',
+        null,
     ]
     NewBoard.currentPlayer = playerOne
     NewBoard.gameMode = 'running'
