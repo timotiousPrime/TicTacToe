@@ -18,28 +18,28 @@ const WINNING_CELLS = [
 
 function CreateNewBoard(){
     let NewBoard = Object.create(BoardMethods)
+    NewBoard.cells = [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+    ]
     // NewBoard.cells = [
     //     null,
     //     null,
-    //     null,
-    //     null,
-    //     null,
-    //     null,
-    //     null,
-    //     null,
+    //     'x',
+    //     'x',
+    //     'o',
+    //     'o',
+    //     'x',
+    //     'o',
     //     null,
     // ]
-    NewBoard.cells = [
-        null,
-        'x',
-        'x',
-        null,
-        'o',
-        'o',
-        'x',
-        'o',
-        null,
-    ]
     NewBoard.currentPlayer = playerOne
     NewBoard.gameMode = 'running'
     return NewBoard
@@ -53,6 +53,12 @@ const BoardMethods = {
         if (this.cells[cellIndex] === null ) {
             this.cells[cellIndex] = String(this.currentPlayer.token)
         }
+    },
+
+    getAvailableCells() {
+        this.cells.filter( (cell) => {
+            return cell === null
+        })
     },
 
     undoMove(cellIndex){
@@ -103,7 +109,6 @@ const player = (isHuman, token, playerName, difficulty) => {
     // let difficulty = null
     return { isHuman, token, isWinner, totalWins, playerName, difficulty }
 }
-
 
 const playerOne = player(true, 'x', 'playerOne', 'hard')
 // Temporary until I decide how to create the second player
