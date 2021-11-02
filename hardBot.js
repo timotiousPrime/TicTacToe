@@ -47,23 +47,20 @@ export function findBestMove(board){
 
 function minimax(board, depth, isMaximizer, maximizer, minimizer) {
     
-    console.log(maximizer)
-    console.log(minimizer)
+    // console.log(maximizer)
+    // console.log(minimizer)
 
     // check if board is terminal and return result if it is
-    if ( isMaximizer ) {
-        if (CONSTS.WINNING_CELLS.some ((board.isWinner), board)){
+    if ( isPlayerWinner(maximizer) ) {
             return 10
-        }
     }
 
-    if ( !isMaximizer ) {
-        if (CONSTS.WINNING_CELLS.some ((board.isWinner), board)){
+    if ( isPlayerWinner(minimizer) ) {
             return -10
-        }
     }
 
-    if (!board.cells.some((board.isDraw), board)) {
+    if (isGameDraw(board)) {
+        console.log('the game is a draw: ', !isGameDraw(board))
         return 0
     }
 
@@ -76,7 +73,7 @@ function minimax(board, depth, isMaximizer, maximizer, minimizer) {
         for (let i = 0; i < 9; i++){
             if (board.cells[i] === null){
                 board.updateCellChoice(i + 1)
-                let value = minimax(board, depth, false, player === playerOne? playerTwo:playerOne)
+                let value = minimax(board, depth, false, maximizer, minimizer)
                 board.undoMove(i)
                 bestVal = Math.max(value, bestVal)
 
@@ -93,7 +90,7 @@ function minimax(board, depth, isMaximizer, maximizer, minimizer) {
                 // Make move
                 board.updateCellChoice(i + 1)
                 // Get value from the move you just made
-                let value = minimax(board, depth, true, maximizer)
+                let value = minimax(board, depth, true, maximizer, minimizer)
                 // After you have the value, undo the move
                 board.undoMove(i)
                 // Get the smallest value 
@@ -115,14 +112,9 @@ function isPlayerWinner(player){
     })
 }
 
-function getCellScore(board, maximizer){
-    if(isWinner(player)) {
-        return player === maximizer ? 10 : -10        
-    }
-
-    if (!board.cells.some( (cell) => {
+function isGameDraw(board) {
+    board.cells.some( (cell) => {
         return cell === null
-    })) {
-        return 
-    }
+    })
 }
+
