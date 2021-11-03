@@ -1,4 +1,4 @@
-import { playerOne, playerTwo } from "./constants.js"
+import { playerOne, playerTwo } from "./gameLogic.js"
 import * as CONSTS from "./constants.js"
 
 // An impossible to defeat player
@@ -46,7 +46,9 @@ export function findBestMove(board){
 }
 
 function minimax(board, depth, isMaximizer, maximizer, minimizer) {
-    
+    console.log('is maxi: ', isMaximizer)
+    console.table(board.cells)
+    // console.log('is maxi: ', isMaximizer)
     // console.log(maximizer)
     // console.log(minimizer)
 
@@ -60,15 +62,15 @@ function minimax(board, depth, isMaximizer, maximizer, minimizer) {
     }
 
     if (isGameDraw(board)) {
-        console.log('the game is a draw: ', !isGameDraw(board))
+        console.log('the game is a draw: ', isGameDraw(board))
         return 0
     }
 
-    const player = board.currentPlayer === playerOne ? playerTwo : playerOne
-    board.currentPlayer = player
+    // const player = board.currentPlayer === playerOne ? playerTwo : playerOne
+    // board.currentPlayer = player
 
-    if (player !== maximizer) {
-        let bestVal = -Infinity
+    if ( isMaximizer ) {
+        let bestVal = -1000
 
         for (let i = 0; i < 9; i++){
             if (board.cells[i] === null){
@@ -103,18 +105,18 @@ function minimax(board, depth, isMaximizer, maximizer, minimizer) {
 }
 
 function isPlayerWinner(player){
-    CONSTS.WINNING_CELLS.some( (winningCombo) => {
-        if (winningCombo[0] === player.token &&
+    console.log('we found a winner')
+
+    console.log( CONSTS.WINNING_CELLS.some( (winningCombo) => {
+         (winningCombo[0] === player.token &&
             winningCombo[1] === player.token && 
-            winningCombo[2] === player.token) {
-                return true
-            }
-    })
+            winningCombo[2] === player.token)
+    }))
 }
 
 function isGameDraw(board) {
-    board.cells.some( (cell) => {
-        return cell === null
+    board.cells.every( (cell) => {
+        return cell !== null
     })
 }
 
