@@ -1,4 +1,4 @@
-import { playerOne, playerTwo } from "./gameLogic.js"
+import { playerOne, playerTwo, nextPlayersTurn } from "./gameLogic.js"
 import * as CONSTS from "./constants.js"
 
 // An impossible to defeat player
@@ -53,21 +53,28 @@ function minimax(board, depth, isMaximizer, maximizer, minimizer) {
     // console.log(minimizer)
 
     // check if board is terminal and return result if it is
-    if ( isPlayerWinner(maximizer) ) {
-            return 10
+    if ( board.isGameOver() ) {
+            if (board.gameMode === 'win'){
+                if (board.currentPlayer === maximizer){
+                    return 10
+                } else {
+                    return -10
+                }
+            } else if (board.gameMode === 'draw'){
+                return 0
+            }
     }
 
-    if ( isPlayerWinner(minimizer) ) {
-            return -10
-    }
+    // if ( isPlayerWinner(minimizer) ) {
+    //         return -10
+    // }
 
-    if (isGameDraw(board)) {
-        console.log('the game is a draw: ', isGameDraw(board))
-        return 0
-    }
+    // if (isGameDraw(board)) {
+    //     console.log('the game is a draw: ', isGameDraw(board))
+    //     return 0
+    // }
 
-    // const player = board.currentPlayer === playerOne ? playerTwo : playerOne
-    // board.currentPlayer = player
+    nextPlayersTurn(board)
 
     if ( isMaximizer ) {
         let bestVal = -1000

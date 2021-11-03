@@ -121,7 +121,6 @@ function createGameBoard(){
     return board
 }
 
-
 export function runGame(){
     console.log('game has started')
     // make new Board to play with
@@ -163,6 +162,8 @@ function handleHumanChoice(board, cellClicked) {
         
         board.printBoardState()
 
+        // console.log('Is the current player a winner? ', isPWinner(board.currentPlayer))
+
         let  gameOver = board.isGameOver()
         console.log("game over?", gameOver)
 
@@ -203,7 +204,7 @@ function handleAiChoice(board) {
         }
 }
 
-function nextPlayersTurn (board) {
+export function nextPlayersTurn (board) {
     board.currentPlayer === playerOne ? 
         board.currentPlayer = playerTwo : 
         board.currentPlayer = playerOne
