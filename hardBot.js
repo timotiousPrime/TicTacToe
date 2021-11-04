@@ -15,10 +15,12 @@ export function findBestMove(board){
     const maximizer = board.currentPlayer
     const minimizer = board.currentPlayer === playerOne ? playerTwo : playerOne
     
-    console.log('the maximizer is ', maximizer)
-    console.log('the minimizer is ', minimizer)
+    // console.log('the maximizer is ', maximizer)
+    // console.log('the minimizer is ', minimizer)
 
     let bestMove = null
+    let cellVals = []
+    let bestVal = -1000
 
     // for each available cell
     for (let i = 0; i < 9; i++){
@@ -30,32 +32,36 @@ export function findBestMove(board){
             // Get value of this cell after playing it
             let moveVal = minimax(board, 3, true, maximizer, minimizer)
 
-            console.log(`move value for cell index ${i}`,moveVal)
+            // console.log(`move value for cell index ${i}`,moveVal)
+            cellVals.push ( [i, moveVal])
             board.undoMove(i)
 
-            let bestVal = -1000
+
                     if (moveVal > bestVal){
                         bestMove = i
                         bestVal = moveVal
                     }
         }
+        console.table(cellVals)
     }
     board.currentPlayer = maximizer
-    console.log('best move is cellIndex',  bestMove)
+    // console.log('best move is cellIndex',  bestMove)
     return bestMove
 }
 
 function minimax(board, depth, isMaximizer, maximizer, minimizer) {
-    console.log('is maxi: ', isMaximizer)
-    console.table(board.cells)
+    // console.log('is maxi: ', isMaximizer)
+    // console.table(board.cells)
     // console.log('is maxi: ', isMaximizer)
     // console.log(maximizer)
     // console.log(minimizer)
+    nextPlayersTurn(board)
 
     // check if board is terminal and return result if it is
+    // console.log(board.currentPlayer)
     if ( board.isGameOver() ) {
             if (board.gameMode === 'win'){
-                if (board.currentPlayer === maximizer){
+                if (isMaximizer){
                     return 10
                 } else {
                     return -10
@@ -74,10 +80,9 @@ function minimax(board, depth, isMaximizer, maximizer, minimizer) {
     //     return 0
     // }
 
-    nextPlayersTurn(board)
 
     if ( isMaximizer ) {
-        let bestVal = -1000
+        let bestVal = -Infinity
 
         for (let i = 0; i < 9; i++){
             if (board.cells[i] === null){
@@ -85,7 +90,7 @@ function minimax(board, depth, isMaximizer, maximizer, minimizer) {
                 let value = minimax(board, depth, false, maximizer, minimizer)
                 board.undoMove(i)
                 bestVal = Math.max(value, bestVal)
-
+                // console.log('best val is ',bestVal)
             }
         }
         return bestVal

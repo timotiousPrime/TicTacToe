@@ -33,8 +33,8 @@ function CreateNewBoard(){
         null,
         null,
         'x',
-        'x',
-        'o',
+        null,
+        null,
         null,
         null,
         'o',
@@ -90,12 +90,12 @@ const BoardMethods = {
     isGameOver () {
         if (CONSTS.WINNING_CELLS.some((this.isWinner), this)){
             this.gameMode = 'win'
-            console.log('win?', this.gameMode)
+            // console.log('win?', this.gameMode)
             return true
         }
         if (!this.cells.some((this.isDraw), this)) {
             this.gameMode = 'draw'
-            console.log('draw?', this.gameMode)
+            // console.log('draw?', this.gameMode)
             return true
         }
         return false
@@ -209,7 +209,7 @@ export function nextPlayersTurn (board) {
         board.currentPlayer = playerTwo : 
         board.currentPlayer = playerOne
 
-    console.log(`it is now ${board.currentPlayer.playerName}'s turn'`)
+    // console.log(`it is now ${board.currentPlayer.playerName}'s turn'`)
 }
 
 function endGame(board){ 
