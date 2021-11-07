@@ -19,7 +19,6 @@ export function findBestMove(board){
     // console.log('the minimizer is ', minimizer)
 
     let bestMove = null
-    let cellVals = []
     let bestVal = -1000
 
     // for each available cell
@@ -30,105 +29,108 @@ export function findBestMove(board){
             board.updateCellChoice(i+1)
 
             // Get value of this cell after playing it
-            let moveVal = minimax(board, 3, true, maximizer, minimizer)
-
+            let moveVal = minimax(board, 0, maximizer)
+            debugger;
             // console.log(`move value for cell index ${i}`,moveVal)
-            cellVals.push ( [i, moveVal])
             board.undoMove(i)
 
-
                     if (moveVal > bestVal){
+
                         bestMove = i
                         bestVal = moveVal
                     }
         }
-        console.table(cellVals)
+        board.currentPlayer = maximizer
     }
-    board.currentPlayer = maximizer
     // console.log('best move is cellIndex',  bestMove)
     return bestMove
 }
 
-function minimax(board, depth, isMaximizer, maximizer, minimizer) {
-    // console.log('is maxi: ', isMaximizer)
-    // console.table(board.cells)
-    // console.log('is maxi: ', isMaximizer)
-    // console.log(maximizer)
-    // console.log(minimizer)
-    nextPlayersTurn(board)
+function minimax(board, depth, maximizer) {
+    // debugger;
 
-    // check if board is terminal and return result if it is
-    // console.log(board.currentPlayer)
-    if ( board.isGameOver() ) {
-            if (board.gameMode === 'win'){
-                if (isMaximizer){
-                    return 10
-                } else {
-                    return -10
+    // get score of state if state is terminal
+    if (board.isGameOver()){
+        // console.table (board.cells)
+        if(board.gameMode === 'draw') {
+            return 0
+        }
+        if (board.currentPlayer === maximizer) {
+            return 10 - depth
+        } else {
+            return -10 + depth
+        }
+    }
+    // update which player turn it is
+    nextPlayersTurn(board) // should be switch player
+    // isMaximizer ? isMaximizer = false : isMaximizer = true
+
+    // game is not terminal so we let the next player get their score
+    if (board.currentPlayer === maximizer){
+        let bestScore = -10000
+
+    // nextPlayersTurn(board)
+
+
+        // for each available cell make a move
+        for (let i = 0; i < board.cells.length; i++){
+            if (board.cells[i] === null) {
+                // make a move in the available cell
+                board.updateCellChoice( i + 1 ) 
+                // get value of that move by calling minimax again
+                let value = minimax(board, depth + 1 , maximizer )
+                // check if this value is better than the current best score
+                if ( value > bestScore) {
+                    bestScore = value
                 }
-            } else if (board.gameMode === 'draw'){
-                return 0
-            }
-    }
-
-    // if ( isPlayerWinner(minimizer) ) {
-    //         return -10
-    // }
-
-    // if (isGameDraw(board)) {
-    //     console.log('the game is a draw: ', isGameDraw(board))
-    //     return 0
-    // }
-
-
-    if ( isMaximizer ) {
-        let bestVal = -Infinity
-
-        for (let i = 0; i < 9; i++){
-            if (board.cells[i] === null){
-                board.updateCellChoice(i + 1)
-                let value = minimax(board, depth, false, maximizer, minimizer)
+                // undo the move just made so we can get 
+                // the next score of the next move
                 board.undoMove(i)
-                bestVal = Math.max(value, bestVal)
-                // console.log('best val is ',bestVal)
             }
         }
-        return bestVal
-    } 
-    else 
-    {
+        return bestScore
+    } else {
 
-        let bestVal = +Infinity
-        for (let i = 0; i< board.cells.length; i++){
-            if (board.cells[i] === null){
-                // Make move
-                board.updateCellChoice(i + 1)
-                // Get value from the move you just made
-                let value = minimax(board, depth, true, maximizer, minimizer)
-                // After you have the value, undo the move
+    // nextPlayersTurn(board)
+
+        let bestScore = 10000
+
+        // for each available cell make a move
+        for (let i = 0; i < board.cells.length; i++) {
+            if (board.cells[i] === null) {
+                // make a move in the available cell
+                board.updateCellChoice( i + 1 ) 
+                // get value of that move by calling minimax again
+                let value = minimax(board, depth + 1 , maximizer )
+                // check if this value is better than the current best score
+                if ( value < bestScore) {
+                    bestScore = value
+                }
                 board.undoMove(i)
-                // Get the smallest value 
-                bestVal = Math.min(value, bestVal)
             }
-
         }
-        return bestVal
+        return bestScore
     }
+
+
+
+
+
 }
 
-function isPlayerWinner(player){
-    console.log('we found a winner')
+// function isPlayerWinner(player){
+//     console.log('we found a winner')
 
-    console.log( CONSTS.WINNING_CELLS.some( (winningCombo) => {
-         (winningCombo[0] === player.token &&
-            winningCombo[1] === player.token && 
-            winningCombo[2] === player.token)
-    }))
-}
+//     console.log( CONSTS.WINNING_CELLS.some( (winningCombo) => {
+//          (winningCombo[0] === player.token &&
+//             winningCombo[1] === player.token && 
+//             winningCombo[2] === player.token)
+//     }))
+// }
 
-function isGameDraw(board) {
-    board.cells.every( (cell) => {
-        return cell !== null
-    })
-}
+// function isGameDraw(board) {
+//     board.cells.every( (cell) => {
+//         return cell !== null
+//     })
+// }
 

@@ -32,13 +32,13 @@ function CreateNewBoard(){
     NewBoard.cells = [
         null,
         null,
+        null,
+        null,
         'x',
         null,
         null,
         null,
-        null,
         'o',
-        null,
     ]
     NewBoard.currentPlayer = playerOne
     NewBoard.gameMode = 'running'
@@ -63,6 +63,7 @@ const BoardMethods = {
 
     undoMove(cellIndex){
         this.cells[cellIndex] = null
+        this.gameMode = 'running'
     },
 
     printBoardState(){
@@ -88,7 +89,7 @@ const BoardMethods = {
     },
     
     isGameOver () {
-        if (CONSTS.WINNING_CELLS.some((this.isWinner), this)){
+        if (CONSTS.WINNING_CELLS.some((this.isWinner), this)) {
             this.gameMode = 'win'
             // console.log('win?', this.gameMode)
             return true
