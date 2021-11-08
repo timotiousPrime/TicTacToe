@@ -6,12 +6,12 @@ import * as CONSTS from "./constants.js"
 
 export function getHardAiChoice(board){
 
-    let BM = Number(findBestMove(board)) + 1
-    console.log('best move: cell', BM)
-    return BM
+    let bestCell = Number(findBestCell(board)) + 1
+    console.log('best move: cell', bestCell)
+    return bestCell
 }
 
-export function findBestMove(board){
+export function findBestCell(board){
     const maximizer = board.currentPlayer
     const minimizer = board.currentPlayer === playerOne ? playerTwo : playerOne
     
