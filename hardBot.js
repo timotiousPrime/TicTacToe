@@ -13,9 +13,9 @@ export function getHardAiChoice(board){
 
 export function findBestCell(board){
     const maximizer = board.currentPlayer
-    const minimizer = board.currentPlayer === playerOne ? playerTwo : playerOne
+    // const minimizer = board.currentPlayer === playerOne ? playerTwo : playerOne
     
-    // console.log('the maximizer is ', maximizer)
+    console.log('the maximizer is ', maximizer)
     // console.log('the minimizer is ', minimizer)
 
     let bestMove = null
@@ -29,7 +29,7 @@ export function findBestCell(board){
             board.updateCellChoice(i+1)
 
             // Get value of this cell after playing it
-            let moveVal = minimax(board, 0, maximizer)
+            let moveVal = minimax(board, 0, false, maximizer)
             debugger;
             // console.log(`move value for cell index ${i}`,moveVal)
             board.undoMove(i)
@@ -46,7 +46,7 @@ export function findBestCell(board){
     return bestMove
 }
 
-function minimax(board, depth, maximizer) {
+function minimax(board, depth, isMaximizer, maximizer) {
     // debugger;
 
     // get score of state if state is terminal
@@ -62,11 +62,11 @@ function minimax(board, depth, maximizer) {
         }
     }
     // update which player turn it is
-    nextPlayersTurn(board) // should be switch player
+    // nextPlayersTurn(board) // should be switch player
     // isMaximizer ? isMaximizer = false : isMaximizer = true
 
     // game is not terminal so we let the next player get their score
-    if (board.currentPlayer === maximizer){
+    if (isMaximizer){
         let bestScore = -10000
 
     // nextPlayersTurn(board)
@@ -75,14 +75,14 @@ function minimax(board, depth, maximizer) {
         // for each available cell make a move
         for (let i = 0; i < board.cells.length; i++){
             if (board.cells[i] === null) {
+
+                board.currentPlayer = maximizer
                 // make a move in the available cell
                 board.updateCellChoice( i + 1 ) 
                 // get value of that move by calling minimax again
-                let value = minimax(board, depth + 1 , maximizer )
+                let value = minimax(board, depth + 1, false , maximizer )
                 // check if this value is better than the current best score
-                if ( value > bestScore) {
-                    bestScore = value
-                }
+                bestScore = Math.max(bestScore, value)
                 // undo the move just made so we can get 
                 // the next score of the next move
                 board.undoMove(i)
@@ -98,10 +98,11 @@ function minimax(board, depth, maximizer) {
         // for each available cell make a move
         for (let i = 0; i < board.cells.length; i++) {
             if (board.cells[i] === null) {
+                maximizer === playerOne ? board.currentPlayer = playerTwo : board.currentPlayer = playerOne
                 // make a move in the available cell
                 board.updateCellChoice( i + 1 ) 
                 // get value of that move by calling minimax again
-                let value = minimax(board, depth + 1 , maximizer )
+                let value = minimax(board, depth + 1, true, maximizer )
                 // check if this value is better than the current best score
                 if ( value < bestScore) {
                     bestScore = value
