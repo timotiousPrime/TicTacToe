@@ -18,27 +18,16 @@ const WINNING_CELLS = [
 
 function CreateNewBoard(){
     let NewBoard = Object.create(BoardMethods)
-    // NewBoard.cells = [
-    //     null,
-    //     null,
-    //     null,
-    //     null,
-    //     null,
-    //     null,
-    //     null,
-    //     null,
-    //     null,
-    // ]
     NewBoard.cells = [
         null,
         null,
         null,
         null,
-        'x',
         null,
         null,
         null,
-        'o',
+        null,
+        null,
     ]
     NewBoard.currentPlayer = playerOne
     NewBoard.gameMode = 'running'
