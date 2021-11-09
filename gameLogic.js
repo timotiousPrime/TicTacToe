@@ -1,20 +1,5 @@
-// import { currentBoard } from "./newGameLogic"
 import { getHardAiChoice } from './hardBot.js' 
-// import { startGame, updatePlayersMove } from "./newGameLogic"
-
 import * as CONSTS from './constants.js'
-
-
-const WINNING_CELLS = [
-    [ 1, 5, 9 ],
-    [ 3, 5, 7 ],
-    [ 1, 2, 3 ],
-    [ 4, 5, 6 ],
-    [ 7, 8, 9 ],
-    [ 1, 4, 7 ],
-    [ 2, 5, 8 ],
-    [ 3, 6, 9 ],
-]
 
 function CreateNewBoard(){
     let NewBoard = Object.create(BoardMethods)
@@ -80,12 +65,10 @@ const BoardMethods = {
     isGameOver () {
         if (CONSTS.WINNING_CELLS.some((this.isWinner), this)) {
             this.gameMode = 'win'
-            // console.log('win?', this.gameMode)
             return true
         }
         if (!this.cells.some((this.isDraw), this)) {
             this.gameMode = 'draw'
-            // console.log('draw?', this.gameMode)
             return true
         }
         return false
@@ -101,8 +84,7 @@ const player = (isHuman, token, playerName, difficulty) => {
 }
 
 export const playerOne = player(true, 'x', 'playerOne', 'hard')
-// Temporary until I decide how to create the second player
-export const playerTwo = player(false, 'o', 'playerTwo', 'hard')
+export const playerTwo = player(true, 'o', 'playerTwo', 'hard')
 
 let board
 
@@ -116,10 +98,6 @@ export function runGame(){
     // make new Board to play with
     createGameBoard()
     
-    console.log(board.currentPlayer.playerName, board.currentPlayer, board.gameMode)
-    console.log('board cells: ')
-    console.table( board.cells )
-
     board.printBoardState()
     // see whose turn it is and handle their play
     handlePlayersChoice(board)
@@ -137,58 +115,53 @@ CONSTS.EL_IDS.cells.forEach( (cell) => {
 })
             
 function handlePlayersChoice(board) {
+    displayPlayersTurn(board)
+
     board.currentPlayer.isHuman ? 
-        console.log(`it's a humans turn`) : 
-        handleAiChoice(board) 
+    console.log(`it's a humans turn`) : 
+    handleAiChoice(board) 
 }
 
 function handleHumanChoice(board, cellClicked) {
+    displayPlayersTurn(board)
 
     if (board.cells[cellClicked -1] === null) {
 
         board.updateCellChoice(cellClicked)
-        console.log('board cells after clicking') 
-        console.table(board.cells)
         
         board.printBoardState()
-
-        // console.log('Is the current player a winner? ', isPWinner(board.currentPlayer))
 
         let  gameOver = board.isGameOver()
         console.log("game over?", gameOver)
 
-        if (board.isGameOver()){ 
-            console.log('hello?')
-            return endGame(board) 
-            } 
-        else {
-            console.log('Next turn')
-            nextPlayersTurn (board)
-            handlePlayersChoice(board)
-            }
+        updateState(board)
+
     } else console.log('please choose a different cell')
 }
 
 function handleAiChoice(board) {
-    console.log(board.currentPlayer.difficulty)
+    displayPlayersTurn(board)
+
     if (board.currentPlayer.difficulty === 'hard'){
-        console.log("AI will now choose a cell")
-        console.log(board)
         let AIMove = getHardAiChoice(board)
-        console.log(AIMove)
         board.updateCellChoice(AIMove)
     }
 
-    console.table(board.cells)
-
     board.printBoardState()
 
+    updateState(board)
+}
+
+function updateState(board){
     if (board.isGameOver()){ 
-        console.log('hello?')
+        console.log('GAME OVER')
+        if (board.gameMode === 'win'){
+            board.currentPlayer.totalWins++
+        }
         return endGame(board) 
         } 
     else {
-        console.log(`${board.currentPlayer.playerName}'s turn has just ended`)
+        console.log(`Next turn`)
         nextPlayersTurn (board)
         handlePlayersChoice(board)
         }
@@ -198,8 +171,6 @@ export function nextPlayersTurn (board) {
     board.currentPlayer === playerOne ? 
         board.currentPlayer = playerTwo : 
         board.currentPlayer = playerOne
-
-    // console.log(`it is now ${board.currentPlayer.playerName}'s turn'`)
 }
 
 function endGame(board){ 
@@ -208,4 +179,16 @@ function endGame(board){
     }
     if (board.gameMode === 'win'){
     console.log(`${board.currentPlayer.playerName} is the winner`)}
+}
+
+function displayPlayersTurn(board){
+    const playerOneSection = document.getElementById(`playerOneSection`)
+    const playerTwoSection = document.getElementById(`playerTwoSection`)
+    if (board.currentPlayer === playerOne){
+        playerOneSection.classList.add('playing')
+        playerTwoSection.classList.remove('playing')
+    } else {
+        playerTwoSection.classList.add('playing')
+        playerOneSection.classList.remove('playing')
+    }
 }

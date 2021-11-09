@@ -1,5 +1,4 @@
 import { playerOne, playerTwo, nextPlayersTurn } from "./gameLogic.js"
-import * as CONSTS from "./constants.js"
 
 // An impossible to defeat player
 // Using mini max algo
@@ -13,7 +12,6 @@ export function getHardAiChoice(board){
 
 export function findBestCell(board){
     const maximizer = board.currentPlayer
-    console.log('the maximizer is ', maximizer)
 
     let bestMove = null
     let bestVal = -1000
@@ -113,26 +111,4 @@ function minimax(board, depth, isMaximizer, maximizer) {
         }
         return bestScore
     }
-
-
-
-
-
 }
-
-// function isPlayerWinner(player){
-//     console.log('we found a winner')
-
-//     console.log( CONSTS.WINNING_CELLS.some( (winningCombo) => {
-//          (winningCombo[0] === player.token &&
-//             winningCombo[1] === player.token && 
-//             winningCombo[2] === player.token)
-//     }))
-// }
-
-// function isGameDraw(board) {
-//     board.cells.every( (cell) => {
-//         return cell !== null
-//     })
-// }
-
