@@ -11,6 +11,19 @@ header{
     height: 4rem;
 }
 
+#opponentPicker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.playerBox button {
+    width: 6rem;
+    height: 2rem;
+    margin: 1rem;
+}
+
 #gameSection{
     height: 60vh;
     width: 100%;
@@ -25,18 +38,26 @@ header{
     grid-template-rows: repeat(3, 1fr);
 }
 
+:root {
+    --cell-size: 15vh;
+    --token-size: calc(var(--cell-size) * 0.9)
+}
+
 .boardCell{
-    width: 15vh;
-    height: 15vh;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #cell1, #cell2, #cell4, #cell5, #cell7, #cell8 {
-    border-right: 4px solid black ;
+    border-right: 5px solid black ;
 
 }
 
 #cell4, #cell5, #cell6, #cell7, #cell8, #cell9 {
-    border-top: 4px solid black;
+    border-top: 5px solid black;
 }
 
 #playerSection{
@@ -66,4 +87,70 @@ footer {
     justify-content: center;
     align-items: center;
     height: 2rem;
+}
+
+.score {
+    align-self: center;
+    font-size: x-large;
+}
+
+.boardCell.x::before,
+.boardCell.x::after {
+    content: '';
+    position: absolute;
+    width: calc(var(--token-size) * 0.1);
+    height: var(--token-size);
+    background-color: #000;
+}
+
+.boardCell.x::before {
+    transform: rotate(45deg);
+}
+
+.boardCell.x::after {
+    transform: rotate(-45deg);
+}
+
+
+.boardCell.o::before {
+    content: '';
+    position: absolute;
+    width: calc(var(--token-size) * 0.9);
+    height: calc(var(--token-size) * 0.9);
+    border: calc(var(--token-size) * 0.1) black solid;
+    border-radius: 50%;
+}
+
+.invisible {
+    display: none;
+}
+
+.visible {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.playing{
+    background-color: rgba(255, 166, 0, 0.55);
+}
+
+#gameOver {
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameOver > p {
+    margin: 2rem;
+    font-size: 3rem;
+    color: #FFF;
 }

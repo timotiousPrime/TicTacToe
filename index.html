@@ -13,26 +13,39 @@
         <h1>Tic Tac Toe</h1>
     </header>
     <body>
+        <!-- <section id="opponentPicker">
+            <h2>Pick your Opponent</h2>
+            <div class="playerBox">
+                <button> Human </button>
+                <button> Ai </button>    
+            </div>
+        </section> -->
         <section id="gameSection">
             <div id="board">
-                <div class="boardCell" id="cell1"></div>
-                <div class="boardCell" id="cell2"></div>
-                <div class="boardCell" id="cell3"></div>
-                <div class="boardCell" id="cell4"></div>
-                <div class="boardCell" id="cell5"></div>
-                <div class="boardCell" id="cell6"></div>
-                <div class="boardCell" id="cell7"></div>
-                <div class="boardCell" id="cell8"></div>
-                <div class="boardCell" id="cell9"></div>
+                <div class="boardCell" data-key="1" id="cell1"></div>
+                <div class="boardCell" data-key="2" id="cell2"></div>
+                <div class="boardCell" data-key="3" id="cell3"></div>
+                <div class="boardCell" data-key="4" id="cell4"></div>
+                <div class="boardCell" data-key="5" id="cell5"></div>
+                <div class="boardCell" data-key="6" id="cell6"></div>
+                <div class="boardCell" data-key="7" id="cell7"></div>
+                <div class="boardCell" data-key="8" id="cell8"></div>
+                <div class="boardCell" data-key="9" id="cell9"></div>
             </div>
         </section>
         <section id="playerSection">
-            <div class="playerOneZone">
+            <div id="playerOneSection" class="playerOneZone">
                 <h3>Player One</h3>
+                <div class="score" id="playerOneScore">0</div>
             </div>
-            <div class="playerTwoZone">
+            <div id="playerTwoSection" class="playerTwoZone">
                 <h3>Player Two</h3>
+                <div class="score" id="playerTwoScore">0</div>
             </div>
+        </section>
+        <section class="invisible" id="gameOver">
+            <p id="gameOverText"></p>
+            <button class="btn-lg" id="restartBtn">Restart</button>
         </section>
     </body>
     <footer>
