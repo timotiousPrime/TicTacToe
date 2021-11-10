@@ -82,8 +82,8 @@ const player = (isHuman, token, playerName, difficulty) => {
     return { isHuman, token, isWinner, totalWins, playerName, difficulty }
 }
 
-export const playerOne = player(true, 'x', 'playerOne', 'hard')
-export const playerTwo = player(false, 'o', 'playerTwo', 'hard')
+export const playerOne = player(true, 'x', 'Player One', 'hard')
+export const playerTwo = player(false, 'o', 'Player Two', 'hard')
 
 let board
 
