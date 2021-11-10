@@ -79,12 +79,11 @@ const BoardMethods = {
 const player = (isHuman, token, playerName, difficulty) => {
     let totalWins = 0
     let isWinner = false
-    // let difficulty = null
     return { isHuman, token, isWinner, totalWins, playerName, difficulty }
 }
 
 export const playerOne = player(true, 'x', 'playerOne', 'hard')
-export const playerTwo = player(true, 'o', 'playerTwo', 'hard')
+export const playerTwo = player(false, 'o', 'playerTwo', 'hard')
 
 let board
 
@@ -156,30 +155,50 @@ function updateState(board){
     if (board.isGameOver()){ 
         console.log('GAME OVER')
         if (board.gameMode === 'win'){
-            board.currentPlayer.totalWins++
         }
         return endGame(board) 
-        } 
+    } 
     else {
         console.log(`Next turn`)
         nextPlayersTurn (board)
         handlePlayersChoice(board)
-        }
+    }
 }
 
 export function nextPlayersTurn (board) {
     board.currentPlayer === playerOne ? 
-        board.currentPlayer = playerTwo : 
-        board.currentPlayer = playerOne
+    board.currentPlayer = playerTwo : 
+    board.currentPlayer = playerOne
 }
 
 function endGame(board){ 
+    displayGameOver(board)
     if (board.gameMode === 'draw'){
         console.log(`It's a draw!`)
     }
     if (board.gameMode === 'win'){
-    console.log(`${board.currentPlayer.playerName} is the winner`)}
+        updateWinCount(board)
+        console.log(`${board.currentPlayer.playerName} is the winner`)}
 }
+    
+function updateWinCount(board){
+    // Update win count for the player that just won
+    board.currentPlayer.totalWins++
+    // Display win count in DOM
+    board.currentPlayer === playerOne ? 
+    CONSTS.EL_IDS.playerOneScore.innerHTML = board.currentPlayer.totalWins :
+    CONSTS.EL_IDS.playerTwoScore.innerHTML = board.currentPlayer.totalWins
+}
+
+function displayGameOver(board){
+    board.gameMode === 'win' ? 
+    CONSTS.EL_IDS.gameOverText.innerHTML = `${board.currentPlayer.playerName} wins` :
+    CONSTS.EL_IDS.gameOverText.innerHTML = `It's a draw`
+    
+    CONSTS.EL_IDS.gameOver.classList.remove('invisible')
+    CONSTS.EL_IDS.gameOver.classList.add('visible')
+}
+
 
 function displayPlayersTurn(board){
     const playerOneSection = document.getElementById(`playerOneSection`)
