@@ -236,8 +236,11 @@ function handleRestartBtn (board) {
 }
 
 function displayPlayersTurn(board){
+    // Define DOM Elements
     const playerOneSection = document.getElementById(`playerOneSection`)
     const playerTwoSection = document.getElementById(`playerTwoSection`)
+
+    // Set CSS props for appropriate player
     if (board.currentPlayer === playerOne){
         playerOneSection.classList.add('playing')
         playerTwoSection.classList.remove('playing')
