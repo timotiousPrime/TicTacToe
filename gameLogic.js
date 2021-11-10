@@ -130,9 +130,6 @@ function handleHumanChoice(board, cellClicked) {
         
         board.printBoardState()
 
-        let  gameOver = board.isGameOver()
-        console.log("game over?", gameOver)
-
         updateState(board)
 
     } else console.log('please choose a different cell')
@@ -179,6 +176,8 @@ function endGame(board){
     if (board.gameMode === 'win'){
         updateWinCount(board)
         console.log(`${board.currentPlayer.playerName} is the winner`)}
+
+    handleRestartBtn (board)
 }
     
 function updateWinCount(board){
@@ -199,6 +198,42 @@ function displayGameOver(board){
     CONSTS.EL_IDS.gameOver.classList.add('visible')
 }
 
+function handleRestartBtn (board) {
+
+    CONSTS.EL_IDS.restartBtn.addEventListener( 'click', () => {
+        // Remove game over overlay
+        CONSTS.EL_IDS.gameOver.classList.add('invisible')
+        CONSTS.EL_IDS.gameOver.classList.remove('visible')
+
+        // Reset current players win status
+        board.currentPlayer.isWinner = false
+        // Set current player to player One
+        board.currentPlayer = playerOne
+        // Reset cells
+        board.cells = [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+        ]
+        // Clear cell styles
+        CONSTS.EL_IDS.cells.forEach( (cell) => {
+            cell.classList.remove('x','o')
+        })
+
+        displayPlayersTurn(board)
+
+        board.printBoardState()
+
+        board.gameMode = CONSTS.GAME_MODE.RUNNING
+    })
+
+}
 
 function displayPlayersTurn(board){
     const playerOneSection = document.getElementById(`playerOneSection`)
