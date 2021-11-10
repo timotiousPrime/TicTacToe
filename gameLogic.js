@@ -23,7 +23,7 @@ const BoardMethods = {
 
     // if cell is available, the board updates with players move
     updateCellChoice(cell) {
-        const cellIndex = Number(cell - 1)
+        const cellIndex = Number(cell)
         if (this.cells[cellIndex] === null ) {
             this.cells[cellIndex] = String(this.currentPlayer.token)
         }
@@ -43,7 +43,7 @@ const BoardMethods = {
     printBoardState(){
         this.cells.map( (cell, index) => {
             if ( cell !== null ) {
-                const cellID = `cell${index+1}`
+                const cellID = `cell${index}`
                 const boardCell = document.getElementById(cellID)
                 boardCell.classList.add(cell) 
             }
@@ -51,9 +51,9 @@ const BoardMethods = {
     },
 
     isWinner(winCombo){
-            return (this.cells[Number(winCombo[0]) -1 ] === this.currentPlayer.token && 
-                    this.cells[Number(winCombo[1]) -1 ] === this.currentPlayer.token && 
-                    this.cells[Number(winCombo[2]) -1 ] === this.currentPlayer.token) 
+            return (this.cells[Number(winCombo[0])] === this.currentPlayer.token && 
+                    this.cells[Number(winCombo[1])] === this.currentPlayer.token && 
+                    this.cells[Number(winCombo[2])] === this.currentPlayer.token) 
     },
 
     // this return if the game is NOT a draw,
@@ -107,7 +107,7 @@ CONSTS.EL_IDS.cells.forEach( (cell) => {
     cell.addEventListener('click', (e) => {
         let cellClicked = Number(e.target.dataset.key)
         console.log(`${board.currentPlayer.playerName} chose cell` + String(cellClicked))
-        if (cellClicked >= 1 && cellClicked <= 9){
+        if (cellClicked >= 0 && cellClicked <= 8){
             handleHumanChoice(board, cellClicked)
         }
     })
@@ -124,7 +124,7 @@ function handlePlayersChoice(board) {
 function handleHumanChoice(board, cellClicked) {
     displayPlayersTurn(board)
 
-    if (board.cells[cellClicked -1] === null) {
+    if (board.cells[cellClicked] === null) {
 
         board.updateCellChoice(cellClicked)
         

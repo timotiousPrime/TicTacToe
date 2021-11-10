@@ -5,7 +5,7 @@ import { playerOne, playerTwo, nextPlayersTurn } from "./gameLogic.js"
 
 export function getHardAiChoice(board){
 
-    let bestCell = Number(findBestCell(board)) + 1
+    let bestCell = Number(findBestCell(board))
     console.log('best move: cell', bestCell)
     return bestCell
 }
@@ -17,11 +17,11 @@ export function findBestCell(board){
     let bestVal = -1000
 
     // for each available cell
-    for (let i = 0; i < 9; i++){
+    for (let i = 0; i < board.cells.length; i++){
         if (board.cells[i] === null){
 
             // make a move
-            board.updateCellChoice(i+1)
+            board.updateCellChoice(i)
 
             // Get value of this cell after playing it
             let moveVal = minimax(board, 0, false, maximizer)
@@ -71,7 +71,7 @@ function minimax(board, depth, isMaximizer, maximizer) {
                 board.currentPlayer = maximizer
 
                 // make a move in the available cell
-                board.updateCellChoice( i + 1 ) 
+                board.updateCellChoice( i ) 
 
                 // get value of that move by calling minimax again
                 let value = minimax(board, depth + 1, false , maximizer )
@@ -97,7 +97,7 @@ function minimax(board, depth, isMaximizer, maximizer) {
                 maximizer === playerOne ? board.currentPlayer = playerTwo : board.currentPlayer = playerOne
                 
                 // make a move in the available cell
-                board.updateCellChoice( i + 1 ) 
+                board.updateCellChoice( i ) 
                 
                 // get value of that move by calling minimax again
                 let value = minimax(board, depth + 1, true, maximizer )
