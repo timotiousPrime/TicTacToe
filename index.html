@@ -12,7 +12,7 @@
     <header>
         <h1>Tic Tac Toe</h1>
     </header>
-    <body>
+    <main>
         <!-- <section id="opponentPicker">
             <h2>Pick your Opponent</h2>
             <div class="playerBox">
@@ -35,19 +35,51 @@
         </section>
         <section id="playerSection">
             <div id="playerOneSection" class="playerOneZone">
-                <h3>Player One</h3>
-                <div class="score" id="playerOneScore">0</div>
+                <div id="playerOneInfo">
+                    <h3 id="playerOneName">Player One</h3>
+                    <div class="score" id="playerOneScore">0</div>
+                    <div class="playerType" id="playerOnePlayerType">Human</div>
+                </div>
+                <div id="playerOneInfoForm" class="invisible">
+                    <form id="playerOneForm">
+                        <label for="playerOneName">Name:</label>
+                        <input type="text" id="playerOneNameInput" name="playerOneName" placeholder="Player One">
+                        <label for="playerOneType">Player Type:</label>
+                        <select id="playerOneType" name="playerOneType">
+                            <option value="human">Human</option>
+                            <option value="ai">Beginner AI</option>
+                            <option value="ai">Master AI</option>
+                            <!-- add submit button -->
+                            <button type="submit">Play</button>
+
+                        </select>
+                    </form>
+                </div>
             </div>
             <div id="playerTwoSection" class="playerTwoZone">
-                <h3>Player Two</h3>
-                <div class="score" id="playerTwoScore">0</div>
+                <div id="playerTwoInfo">
+                    <h3 id="playerTwoName">Player Two</h3>
+                    <div class="score" id="playerTwoScore">0</div>
+                    <div class="playerType" id="playerTwoPlayerType">Master AI</div>
+                </div>
+                <div id="playerTwoInfoForm">
+                    <form id="playerTwoForm" class="invisible">
+                        <label for="playerTwoName">Name:</label>
+                        <input type="text" id="playerTwoNameInput" name="playerTwoName" placeholder="Player Two">
+                        <label for="playerTwoType">Player Type:</label>
+                        <select id="playerTwoType" name="playerTwoType">
+                            <option value="human">Human</option>
+                            <option value="ai">Beginner AI</option>
+                            <option value="ai">Master AI</option>
+                        </select>
+                    </form>
             </div>
         </section>
         <section class="invisible" id="gameOver">
             <p id="gameOverText"></p>
             <button class="btn-lg" id="restartBtn">Restart</button>
         </section>
-    </body>
+    </main>
     <footer>
         <p>Built by TimotiousPrime</p>
     </footer>
