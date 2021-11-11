@@ -82,8 +82,8 @@ const player = (isHuman, token, playerName, difficulty) => {
     return { isHuman, token, isWinner, totalWins, playerName, difficulty }
 }
 
-export const playerOne = player(true, 'x', 'Player One', 'hard')
-export const playerTwo = player(false, 'o', 'Player Two', 'hard')
+export const playerOne = player(false, 'x', 'Player One', 'hard')
+export const playerTwo = player(true, 'o', 'Player Two', 'hard')
 
 let board
 
@@ -150,9 +150,6 @@ function handleAiChoice(board) {
 
 function updateState(board){
     if (board.isGameOver()){ 
-        console.log('GAME OVER')
-        if (board.gameMode === 'win'){
-        }
         return endGame(board) 
     } 
     else {
@@ -169,6 +166,8 @@ export function nextPlayersTurn (board) {
 }
 
 function endGame(board){ 
+    console.log('GAME OVER')
+
     displayGameOver(board)
     if (board.gameMode === 'draw'){
         console.log(`It's a draw!`)
@@ -225,27 +224,46 @@ function handleRestartBtn (board) {
         CONSTS.EL_IDS.cells.forEach( (cell) => {
             cell.classList.remove('x','o')
         })
-
+        
         displayPlayersTurn(board)
-
+        
         board.printBoardState()
-
+        
         board.gameMode = CONSTS.GAME_MODE.RUNNING
+        
+        console.log(board)
     })
+
+    // CONSTS.EL_IDS.cells.forEach( (cell) => {
+    //     cell.removeEventListener('click', (e) => {
+    //         let cellClicked = Number(e.target.dataset.key)
+    //         console.log(`${board.currentPlayer.playerName} chose cell` + String(cellClicked))
+    //         if (cellClicked >= 0 && cellClicked <= 8){
+    //             handleHumanChoice(board, cellClicked)
+    //         }
+    //     })
+    // })
 
 }
 
 function displayPlayersTurn(board){
-    // Define DOM Elements
-    const playerOneSection = document.getElementById(`playerOneSection`)
-    const playerTwoSection = document.getElementById(`playerTwoSection`)
-
     // Set CSS props for appropriate player
     if (board.currentPlayer === playerOne){
-        playerOneSection.classList.add('playing')
-        playerTwoSection.classList.remove('playing')
+        CONSTS.EL_IDS.body.classList.add('playerOneTurn')
+        CONSTS.EL_IDS.body.classList.remove('playerTwoTurn')
     } else {
-        playerTwoSection.classList.add('playing')
-        playerOneSection.classList.remove('playing')
+        CONSTS.EL_IDS.body.classList.add('playerTwoTurn')
+        CONSTS.EL_IDS.body.classList.remove('playerOneTurn')
     }
 }
+
+
+    CONSTS.EL_IDS.playerOneSection.addEventListener('click', () => {
+        console.log('player one form clicked')
+        CONSTS.EL_IDS.playerOneInfo.classList.add('invisible')
+        CONSTS.EL_IDS.playerOneInfoForm.classList.remove('invisible')
+    })
+    CONSTS.EL_IDS.playerTwoSection.addEventListener('click', () => {
+        CONSTS.EL_IDS.playerTwoInfo.classList.add('invisible')
+        CONSTS.EL_IDS.playerTwoInfoForm.classList.remove('invisible')
+    })
