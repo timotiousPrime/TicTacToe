@@ -14,11 +14,16 @@ export const EL_IDS = {
     playerTwoScore: document.getElementById('playerTwoScore'),
     restartBtn: document.getElementById('restartBtn'),
     overlay: document.getElementById('gameOver'),
-    playerOneSection: document.getElementById('id="playerOneSection'),
-    playerTwoSection: document.getElementById('id="playerTwoSection'),
+    playerOneSection: document.getElementById('playerOneSection'),
+    playerTwoSection: document.getElementById('playerTwoSection'),
+    playerOneInfo: document.getElementById('playerOneInfo'),
+    playerTwoInfo: document.getElementById('playerTwoInfo'),
+    playerOneInfoForm: document.getElementById('playerOneInfoForm'),
+    playerTwoInfoForm: document.getElementById('playerTwoInfoForm'),
     gameOver: document.getElementById('gameOver'),
     gameOverText: document.getElementById('gameOverText'),
     cells: document.querySelectorAll('.boardCell'),
+    body: document.querySelector('body'),
 }
 
 export const GAME_MODE = {
