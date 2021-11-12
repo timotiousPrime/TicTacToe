@@ -82,8 +82,8 @@ const player = (isHuman, token, playerName, difficulty) => {
     return { isHuman, token, isWinner, totalWins, playerName, difficulty }
 }
 
-export const playerOne = player(false, 'x', 'Player One', 'hard')
-export const playerTwo = player(true, 'o', 'Player Two', 'hard')
+export const playerOne = player(true, 'x', 'Player One', 'hard')
+export const playerTwo = player(false, 'o', 'Player Two', 'hard')
 
 let board
 
@@ -193,7 +193,7 @@ function displayGameOver(board){
     CONSTS.EL_IDS.gameOverText.innerHTML = `${board.currentPlayer.playerName} wins` :
     CONSTS.EL_IDS.gameOverText.innerHTML = `It's a draw`
     
-    CONSTS.EL_IDS.gameOver.classList.remove('invisible')
+    CONSTS.EL_IDS.gameOver.classList.remove('visually-hidden')
     CONSTS.EL_IDS.gameOver.classList.add('visible')
 }
 
@@ -201,7 +201,7 @@ function handleRestartBtn (board) {
 
     CONSTS.EL_IDS.restartBtn.addEventListener( 'click', () => {
         // Remove game over overlay
-        CONSTS.EL_IDS.gameOver.classList.add('invisible')
+        CONSTS.EL_IDS.gameOver.classList.add('visually-hidden')
         CONSTS.EL_IDS.gameOver.classList.remove('visible')
 
         // Reset current players win status
