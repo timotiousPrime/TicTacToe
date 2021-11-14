@@ -256,14 +256,3 @@ function displayPlayersTurn(board){
         CONSTS.EL_IDS.body.classList.remove('playerOneTurn')
     }
 }
-
-
-    CONSTS.EL_IDS.playerOneSection.addEventListener('click', () => {
-        console.log('player one form clicked')
-        CONSTS.EL_IDS.playerOneInfo.classList.add('invisible')
-        CONSTS.EL_IDS.playerOneInfoForm.classList.remove('invisible')
-    })
-    CONSTS.EL_IDS.playerTwoSection.addEventListener('click', () => {
-        CONSTS.EL_IDS.playerTwoInfo.classList.add('invisible')
-        CONSTS.EL_IDS.playerTwoInfoForm.classList.remove('invisible')
-    })
