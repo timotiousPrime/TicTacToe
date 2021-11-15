@@ -83,7 +83,7 @@ const player = (isHuman, token, playerName, difficulty) => {
 }
 
 export const playerOne = player(true, 'x', 'Player One', 'hard')
-export const playerTwo = player(false, 'o', 'Player Two', 'hard')
+export const playerTwo = player(true, 'o', 'Player Two', 'hard')
 
 let board
 
@@ -114,6 +114,7 @@ CONSTS.EL_IDS.cells.forEach( (cell) => {
 })
             
 function handlePlayersChoice(board) {
+    handlePlayerTypeBtns(board)
     displayPlayersTurn(board)
 
     board.currentPlayer.isHuman ? 
@@ -204,45 +205,42 @@ function handleRestartBtn (board) {
         CONSTS.EL_IDS.gameOver.classList.add('visually-hidden')
         CONSTS.EL_IDS.gameOver.classList.remove('visible')
 
-        // Reset current players win status
-        board.currentPlayer.isWinner = false
-        // Set current player to player One
-        board.currentPlayer = playerOne
-        // Reset cells
-        board.cells = [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-        ]
-        // Clear cell styles
-        CONSTS.EL_IDS.cells.forEach( (cell) => {
-            cell.classList.remove('x','o')
-        })
-        
-        displayPlayersTurn(board)
-        
-        board.printBoardState()
-        
-        board.gameMode = CONSTS.GAME_MODE.RUNNING
-        
-        console.log(board)
+        restartGame(board)
     })
 
-    // CONSTS.EL_IDS.cells.forEach( (cell) => {
-    //     cell.removeEventListener('click', (e) => {
-    //         let cellClicked = Number(e.target.dataset.key)
-    //         console.log(`${board.currentPlayer.playerName} chose cell` + String(cellClicked))
-    //         if (cellClicked >= 0 && cellClicked <= 8){
-    //             handleHumanChoice(board, cellClicked)
-    //         }
-    //     })
-    // })
+}
+
+function restartGame(board){
+    // Reset current players win status
+    board.currentPlayer.isWinner = false
+    // Set current player to player One
+    board.currentPlayer = playerOne
+    // Reset cells
+    board.cells = [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+    ]
+    // Clear cell styles
+    CONSTS.EL_IDS.cells.forEach( (cell) => {
+        cell.classList.remove('x','o')
+    })
+    
+    displayPlayersTurn(board)
+    
+    board.printBoardState()
+    
+    board.gameMode = CONSTS.GAME_MODE.RUNNING
+    
+    console.log(board)
+
+    handlePlayersChoice(board)
 
 }
 
@@ -256,3 +254,60 @@ function displayPlayersTurn(board){
         CONSTS.EL_IDS.body.classList.remove('playerOneTurn')
     }
 }
+
+
+function handlePlayerTypeBtns(board){
+    if (CONSTS.EL_IDS.playerOneRadioBtnHuman.checked){
+        console.log('playerOne is a human')
+        playerOne.isHuman = true
+    }
+
+    if (CONSTS.EL_IDS.playerOneRadioBtnEasy.checked){
+        console.log('playerOne is an easy AI')
+        playerOne.isHuman = false
+        playerOne.difficulty = 'easy'
+
+    }
+
+    if (CONSTS.EL_IDS.playerOneRadioBtnHard.checked){
+        console.log('playerOne is unbeatable')
+        playerOne.isHuman = false
+        playerOne.difficulty = 'hard'
+    }
+
+    if (CONSTS.EL_IDS.playerTwoRadioBtnHuman.checked){
+        console.log('playerTwo is a human')
+        playerTwo.isHuman = true
+
+    }
+
+    if (CONSTS.EL_IDS.playerTwoRadioBtnEasy.checked){
+        console.log('playerTwo is an easy AI')
+        playerTwo.isHuman = false
+        playerTwo.difficulty = 'easy'
+    }
+
+    if (CONSTS.EL_IDS.playerTwoRadioBtnHard.checked){
+        console.log('playerTwo is unbeatable')
+        playerTwo.isHuman = false
+        playerTwo.difficulty = 'hard'
+    }
+}
+
+CONSTS.EL_IDS.playerOneRadioBtnEasy.addEventListener('click', () => {
+    handlePlayersChoice(board)
+})
+
+CONSTS.EL_IDS.playerTwoRadioBtnEasy.addEventListener('click', () => {
+    handlePlayersChoice(board)
+})
+
+
+CONSTS.EL_IDS.playerOneRadioBtnHard.addEventListener('click', () => {
+    handlePlayersChoice(board)
+})
+
+CONSTS.EL_IDS.playerTwoRadioBtnHard.addEventListener('click', () => {
+    handlePlayersChoice(board)
+})
+
