@@ -31,7 +31,16 @@
                     <div id="playerOneInfo">
                         <h3 id="playerOneName">Player One</h3>
                         <div class="score" id="playerOneScore">0</div>
-                        <div class="playerType" id="playerOnePlayerType">Human</div>
+                        <div class="btn-group-sm" role="group" aria-label="Toggle between player, easy AI, and master AI">
+                            <input type="radio" class="btn-check" name="playerOneRadioBtn" id="playerOneRadioBtnHuman" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="playerOneRadioBtnHuman">Human</label>
+                          
+                            <input type="radio" class="btn-check" name="playerOneRadioBtn" id="playerOneRadioBtnEasy" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="playerOneRadioBtnEasy">Easy AI</label>
+                          
+                            <input type="radio" class="btn-check" name="playerOneRadioBtn" id="playerOneRadioBtnHard" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="playerOneRadioBtnHard">Master AI</label>
+                          </div>
                     </div>
                     <!-- <div id="playerOneInfoForm" class="invisible">
                         <form id="playerOneForm">
@@ -52,20 +61,17 @@
                     <div id="playerTwoInfo">
                         <h3 id="playerTwoName">Player Two</h3>
                         <div class="score" id="playerTwoScore">0</div>
-                        <div class="playerType" id="playerTwoPlayerType">Master AI</div>
+                        <div class="btn-group-sm" role="group" aria-label="Toggle between player, easy AI, and master AI">
+                            <input type="radio" class="btn-check" name="playerTwoRadioBtn" id="playerTwoRadioBtnHuman" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="playerTwoRadioBtnHuman">Human</label>
+                          
+                            <input type="radio" class="btn-check" name="playerTwoRadioBtn" id="playerTwoRadioBtnEasy" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="playerTwoRadioBtnEasy">Easy AI</label>
+                          
+                            <input type="radio" class="btn-check" name="playerTwoRadioBtn" id="playerTwoRadioBtnHard" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="playerTwoRadioBtnHard">Master AI</label>
+                          </div>
                     </div>
-                    <!-- <div id="playerTwoInfoForm">
-                        <form id="playerTwoForm" class="invisible">
-                            <label for="playerTwoName">Name:</label>
-                            <input type="text" id="playerTwoNameInput" name="playerTwoName" placeholder="Player Two">
-                            <label for="playerTwoType">Player Type:</label>
-                            <select id="playerTwoType" name="playerTwoType">
-                                <option value="human">Human</option>
-                                <option value="ai">Beginner AI</option>
-                                <option value="ai">Master AI</option>
-                            </select>
-                        </form>
-                </div> -->
             </section>
             
         </main>
