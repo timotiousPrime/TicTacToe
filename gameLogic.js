@@ -120,7 +120,7 @@ function handlePlayersChoice(board) {
 
     board.currentPlayer.isHuman ? 
     console.log(`it's a humans turn`) : 
-    setTimeout(handleAiChoice, 500, board) 
+    setTimeout(handleAiChoice, 700, board) 
 }
 
 function handleHumanChoice(board, cellClicked) {
