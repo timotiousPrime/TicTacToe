@@ -1,21 +1,13 @@
 // A completely Random player
 
-export function getRandomRemainingCellIndex(board) {
-    let availCells = []
-    board.cells.forEach( (cell) => {
-        if (cell === null) {
-            cell.
-        }
-    });
-    const range = board.cells.length
-    return Math.floor(Math.random() * range )
-}
-
 export function getEasyAiChoice(board){
-    const randomCellIndex = getRandomRemainingCellIndex(board)
-    const cellValue = board.availableCells[randomCellIndex]
-    const cell = document.getElementById(`cell${cellValue}`)
-
-    return cellValue
+    let availCells = []
+    for (let i = 0; i < board.cells.length; i++) {
+        if (board.cells[i] === null) {
+            availCells.push(i)
+        }
+    }
+    const range = availCells.length
+    console.log('available cells', availCells)
+    return availCells[Math.floor(Math.random() * range )]
 }
-

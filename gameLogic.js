@@ -1,5 +1,6 @@
 import { getHardAiChoice } from './hardBot.js' 
 import * as CONSTS from './constants.js'
+import { getEasyAiChoice } from './easyBot.js'
 
 function CreateNewBoard(){
     let NewBoard = Object.create(BoardMethods)
@@ -140,7 +141,13 @@ function handleAiChoice(board) {
     displayPlayersTurn(board)
 
     if (board.currentPlayer.difficulty === 'hard'){
-        let AIMove = getHardAiChoice(board)
+        const AIMove = getHardAiChoice(board)
+        board.updateCellChoice(AIMove)
+    }
+
+    if (board.currentPlayer.difficulty === 'easy'){
+        const AIMove = getEasyAiChoice(board)
+        console.log(AIMove)
         board.updateCellChoice(AIMove)
     }
 
